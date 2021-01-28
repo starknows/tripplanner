@@ -1,5 +1,4 @@
 //卡片元件
-//除日期頭尾、天數、價格以外之屬性必填
 //
 import React, { useState } from 'react'
 import StrCutter from './StrCutter'

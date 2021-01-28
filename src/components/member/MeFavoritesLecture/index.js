@@ -47,7 +47,10 @@ function MeFavoritesLecture({
           <Link to="/productList/view/1">
             <img
               // 要放絕對路徑
-              src={'/images/classPhoto/' + productCard[0].classPhoto}
+              src={
+                'http://localhost:5000//images/classPhoto/' +
+                productCard[0].classPhoto
+              }
               className="card-img img-fluid"
               alt="productCard[0].classPhoto"
             />

@@ -1,64 +1,65 @@
 $main-red: #f9669c;
 //背景card
-.card-ingroup-box{
-    width: 800px;
-    padding: 5px 10px;
-    margin: 0px;
-    position: relative;
-    left: 10px;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    //border: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: 0.25rem;
+.card-ingroup-box {
+  width: 800px;
+  padding: 5px 10px;
+  margin: 0px;
+  position: relative;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  //border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 }
-.Ingroup-btn{
-    color: #ffffff;
-    width: 120px;
-    height: 30px;
-    border: none;
-    background: #4464BE;
+.Ingroup-btn {
+  color: #ffffff;
+  width: 120px;
+  height: 30px;
+  border: none;
+  background: #4464be;
 }
 //收藏卡片樣式
 .card-style-mef {
-    width: 80px;
-    height: 26px;
-    background-color: $main-red;
-    color: #fff;
-    border-radius: 16px;
-    text-align: center;
+  width: 80px;
+  height: 26px;
+  background-color: $main-red;
+  color: #fff;
+  border-radius: 16px;
+  text-align: center;
+}
+// 移動底部map位置
+.mef-icno-style {
+  margin: 10px 0px 0px 0px;
+  position: relative;
+  bottom: -20px;
+}
+.me-favorites-back-style {
+  background: rgb(230, 230, 230);
+  h3 {
+    padding-bottom: 1rem;
   }
-  // 移動底部map位置
-  .mef-icno-style {
-    margin: 10px 0px 0px 0px;
-    position: relative;
-    bottom: -20px;
+  img {
+    max-width: 260px;
+    max-height: 198px;
+    object-fit: cover;
+    border-radius: 10px;
+    padding: 5px;
+    height: 100%;
   }
-.me-favorites-back-style{
-    background: rgb(230, 230, 230);
-    h3{
-      padding-bottom: 1rem;
-    }
-    img{
-      object-fit: cover;
-      border-radius: 10px;
-        padding: 5px;
-        height: 100%;
-    }
-    :hover img {
-        transform: scale(1.07);
-      }
-      .img {
-        width: 100%;
-        transition: 0.3s;
-      }
+  :hover img {
+    transform: scale(1.07);
   }
-  // 移動地點二
-.mef-icon-map-move{
+  .img {
+    // width: 100%;
+    transition: 0.3s;
+  }
+}
+// 移動地點二
+.mef-icon-map-move {
   position: absolute;
   left: 1rem;
-}  
-  
+}

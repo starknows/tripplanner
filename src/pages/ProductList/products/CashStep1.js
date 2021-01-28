@@ -235,7 +235,12 @@ function CashStep1({ className, classDate, ticket_price, ticketData }) {
     const findID = IDarray.indexOf(product_id)
     const cutID = IDarray.splice(findID, 1)
     const strArray = IDarray.toString()
-    const newIDarray = localStorage.setItem('product_id', strArray)
+    console.log(IDarray)
+
+    const newIDarray = localStorage.setItem(
+      'product_id',
+      JSON.stringify(strArray)
+    )
   }
 
   const step2 = (

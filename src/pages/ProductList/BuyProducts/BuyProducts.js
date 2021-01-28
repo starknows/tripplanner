@@ -273,7 +273,7 @@ function BuyProducts({
                   getIDdata.indexOf(product_id) === -1 ? (
                     <p>{single <= 0 ? 0 : single}</p>
                   ) : (
-                    <p>{getproductdata.getIDdata}</p>
+                    <p>{getproductdata.single}</p>
                   )
                 ) : (
                   <p>{single <= 0 ? 0 : single}</p>

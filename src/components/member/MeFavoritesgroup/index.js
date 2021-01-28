@@ -66,7 +66,9 @@ function MeFavoritesgroup({
               <div className="col-md-4">
                 <Link to={detailUrl}>
                   <img
-                    src={'/images/tbPhoto/' + v.tb_themePhoto}
+                    src={
+                      'http://localhost:5000/images/tbPhoto/' + v.tb_themePhoto
+                    }
                     className="card-img img-fluid"
                     alt={v.tb_themePhoto}
                   />
