@@ -29,12 +29,9 @@ function MeFavoritesgroup({
   let detailUrl = `/${type}/view/${id}`
   async function gettbJoined(props) {
     try {
-      const response = await fetch(
-        `http://localhost:5000/travelBuddies/${id}`,
-        {
-          method: 'get',
-        }
-      )
+      const response = await fetch(`http://localhost:5000/travelBuddies`, {
+        method: 'get',
+      })
       if (response.ok) {
         const data = await response.json()
         setMetbJoined(data)

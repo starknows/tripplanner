@@ -10,7 +10,7 @@ import { message } from 'antd'
 
 function Login(props) {
   const success = () => {
-    message.success('歡迎蒞臨~履歷!')
+    message.success('歡迎蒞臨~旅歷!')
   }
   //是否登入
   // 從App元件得到兩個屬性值，解構出來
