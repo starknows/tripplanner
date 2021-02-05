@@ -5,6 +5,7 @@ import { IoMdTime } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import Pages from '../../main/Pages'
 
+//引入json
 // let cardData = require('../../Itinerary/testJsonData.json')
 // let handleTestData = cardData[2].data
 
@@ -26,8 +27,11 @@ function MeFavoritesgroup({
   } else if (price !== -1) {
     type = 'travelBuddies'
   }
+  //超連結
   let detailUrl = `/${type}/view/${id}`
-  async function gettbJoined(props) {
+
+  //引入資料庫
+  async function gettbJoined() {
     try {
       const response = await fetch(`http://localhost:5000/travelBuddies`, {
         method: 'get',
@@ -46,6 +50,7 @@ function MeFavoritesgroup({
     gettbJoined()
   }, [])
 
+  //pages
   let [showRange, setShowRange] = useState([0, itemPerPage])
   let dataLength = metbJoined.length
   let totalPage = Math.floor(dataLength / itemPerPage)
@@ -53,10 +58,12 @@ function MeFavoritesgroup({
     setShowRange([(orderPage - 1) * itemPerPage, orderPage * itemPerPage])
     window.scrollTo(0, 0)
   }
+
   let display = <></>
 
   if (type === 'travelBuddies') {
     display = metbJoined.map((v, index) => {
+      // pages
       if (index < showRange[0] || index >= showRange[1]) {
         return null
       } else {
@@ -78,6 +85,7 @@ function MeFavoritesgroup({
                 <div className="card-body">
                   <h3 className="card-title">{v.tb_themeName}</h3>
                   <span className="mef-icno-style">
+                    {/* 時間切割 */}
                     <IoMdTime />{' '}
                     {metbJoined[0].tb_dateBegin.slice(0, 4) +
                       '/' +

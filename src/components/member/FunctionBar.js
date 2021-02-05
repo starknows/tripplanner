@@ -1,7 +1,6 @@
 //會員中心頁連結
 import React from 'react'
-import { Nav } from 'react-bootstrap'
-import { Route, NavLink, Switch, Link } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import HistiryRoute from '../member/ShoppingHistory/HistoryRoute'
 import MyTravelBuddies from './MyTravelBuddies/MyTravelBuddies'
 import MeFavorites from '../main/MeFavorites'
@@ -10,7 +9,6 @@ import MyAccount from '../member/MyAccount'
 import MyItineraryTabs from './MyItinerary/MyItineraryTabs'
 function FunctionBar() {
   return (
-    //<Router>
     <>
       <div className="functio-bar">
         <Link to="/myAccount">我的帳戶</Link>
@@ -41,7 +39,6 @@ function FunctionBar() {
         </Route>
       </Switch>
     </>
-    //</Router>
   )
 }
 

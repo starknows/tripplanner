@@ -5,7 +5,6 @@ import { IoMdTime } from 'react-icons/io'
 import './ingroup.scss'
 import { Link } from 'react-router-dom'
 import { Modal, Button } from 'react-bootstrap'
-import NoData from '../../main/NoData'
 
 function MeFavoritesgroup({
   id = 1, //資料的id
@@ -24,7 +23,7 @@ function MeFavoritesgroup({
     type = 'travelBuddies'
   }
   let detailUrl = `/${type}/view/${id}`
-  async function gettbJoined(props) {
+  async function gettbJoined() {
     try {
       const response = await fetch(
         `http://localhost:5000/travelBuddies/${id}`,
@@ -51,6 +50,7 @@ function MeFavoritesgroup({
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
+  //display 顯示&&隱藏
   function mefdelet() {
     const listBtn = document.getElementById('show-card')
     const textlistn = document.getElementById('card-ingroup-box')

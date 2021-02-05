@@ -1,39 +1,23 @@
-//修改會員資料卡片
+//修改會員資料及更新大頭照
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import MemberEdit from '../MemberEdit'
-// import { useParams } from 'react-router-dom'
 import './MemberProfile.scss'
 import $ from 'jquery'
-import { message } from 'antd'
 import { FaCamera } from 'react-icons/fa'
-// import Upload from './Upload'
-function MemberProfile({ setMember, setAuth }) {
+
+//導入資料庫
+function MemberProfile({ setMember }) {
   const [memberData, setMemberData] = useState(
     JSON.parse(localStorage.getItem('userData'))
   )
-  // console.log('mp member:', memberData)
+
+  //model
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  const success = () => {
-    message.success({
-      content: '更新成功!',
-      className: 'custom-class',
-      style: {
-        marginTop: '20vh',
-      },
-    })
-  }
-  // const handleChangeShow = () => setShow(true)
-  // const handleChangeclose = () => setShow(true)
-  //   handleChange(event) {
-  //     this.setState({
-  //       file: URL.createObjectURL(event.target.files[0]),
-  //     })
-  //   }
-
+  //拉取資料
   async function memberPicUpload(id) {
     let formData = new FormData()
     let imgFile = document.querySelector('#imageUpload')
@@ -51,20 +35,22 @@ function MemberProfile({ setMember, setAuth }) {
         memberPicChange(id, url)
         console.log('udid:', id)
         console.log('ud1img:', url)
-        let ddddddddimg = JSON.parse(localStorage.getItem('userData'))
-        // 存檔
-        ddddddddimg.member_photo_id = url
-        localStorage.setItem('userData', JSON.stringify(ddddddddimg))
+        //制定
+        let chingimg = JSON.parse(localStorage.getItem('userData'))
+        // 存入圖片
+        chingimg.member_photo_id = url
+        localStorage.setItem('userData', JSON.stringify(chingimg))
         document.querySelector(
           '.header-img-br'
         ).src = `http://localhost:5000/images/member/${url}`
-        success()
       }
     } catch (err) {
       // alert('無法得到伺服器資料，請稍後再重試')
       console.log(err)
     }
   }
+
+  //更新大頭照
   async function memberPicChange(id, url) {
     try {
       const response = await fetch(
@@ -85,6 +71,7 @@ function MemberProfile({ setMember, setAuth }) {
       console.log(err)
     }
   }
+
   //前端改圖
   function readURL(input) {
     if (input.files && input.files[0]) {
@@ -106,7 +93,7 @@ function MemberProfile({ setMember, setAuth }) {
   //   readURL(this)
   // })
 
-  const uuuurl =
+  const chingurl =
     'http://localhost:5000/images/member/' + memberData.member_photo_id
   const img = (
     <>
@@ -126,7 +113,7 @@ function MemberProfile({ setMember, setAuth }) {
           <div
             id="imagePreview"
             style={{
-              backgroundImage: `url(${uuuurl})`,
+              backgroundImage: `url(${chingurl})`,
             }}
           ></div>
         </div>
@@ -138,11 +125,6 @@ function MemberProfile({ setMember, setAuth }) {
       <div className="person">
         <h3>一般會員</h3>
         {img}
-        {/* <img
-          id="preview_ie"
-          src={'/images/userphoto/' + memberData.member_photo_id}
-          alt={memberData.member_name}
-        /> */}
         <h4>{memberData.member_name}</h4>
         <Button
           variant="primary"
@@ -156,7 +138,7 @@ function MemberProfile({ setMember, setAuth }) {
         size="lg"
         show={show}
         onHide={handleClose}
-        //backdrop="static"
+        // backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
@@ -164,6 +146,7 @@ function MemberProfile({ setMember, setAuth }) {
         </Modal.Header>
         <Modal.Body>
           <MemberEdit
+            // 資料傳遞
             member={memberData}
             setMember={setMember}
             handleClose={handleClose}

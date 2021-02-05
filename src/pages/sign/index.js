@@ -41,6 +41,7 @@ function Login() {
         const data = await response.json()
         setMember(data.member)
         // alert('註冊成功!')
+        success()
         history.push('/login')
       } else {
         history.push('/sigon')
@@ -103,7 +104,7 @@ function Login() {
                 </InputGroup>
               </Form.Group>
             </Form.Row>
-            <Button type="submit" className="login-btn" onClick={success}>
+            <Button type="submit" className="login-btn">
               註冊
             </Button>
             <div className="sogin-samp-text d-flex">

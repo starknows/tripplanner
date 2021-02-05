@@ -33,7 +33,7 @@ function LoginHooks() {
     //顯示授權你網站存取的用戶個資
     // document.getElementById('content').innerHTML = str
   }
-
+  //登入失敗提示
   // const onFailure = (res) => {
   //   console.log('Login failed: res:', res)
   // alert(
@@ -55,6 +55,7 @@ function LoginHooks() {
     <>
       <FaGoogle onClick={signIn} alt="google login" />
     </>
+    // 原生
     // <button onClick={signIn} className="button" {}>
     // {/* <img src="icons/google.svg" alt="google login" className="icon"></img> */}
 

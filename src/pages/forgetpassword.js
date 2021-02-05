@@ -2,7 +2,7 @@
 import React from 'react'
 import { FaUserAlt, FaFacebook, FaGoogle } from 'react-icons/fa'
 import { Form, Button, Col, InputGroup } from 'react-bootstrap'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import '../pages/sign/sign.scss'
 import { message } from 'antd'
 // import ContactUsfrom from './ContactUs'
@@ -25,6 +25,8 @@ function Login(props) {
 
   //   setValidated(true)
   // }
+
+  //email js
   function sendEmail(e) {
     e.preventDefault()
 
@@ -68,10 +70,6 @@ function Login(props) {
                     placeholder="您的信箱"
                     aria-describedby="inputGroupPrepend"
                     required
-                    // onChange={() => {
-                    //   alert('成功寄送!')
-                    //   history.push('/login')
-                    // }}
                   />
                   <Form.Control.Feedback type="invalid">
                     請輸入正確的信箱格式
@@ -84,6 +82,14 @@ function Login(props) {
             </Button>
             <div className="sogin-samp-text d-flex">
               <span>
+                {/* <Link
+                  to="Login"
+                  onClick={() => {
+                    history.push('/login')
+                  }}
+                >
+                  登入
+                </Link> */}
                 <a href="http://localhost:3000/login">登入</a>
               </span>
             </div>
