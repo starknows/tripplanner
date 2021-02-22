@@ -1,6 +1,10 @@
+/**
+ *檔案負責人: 柯政安
+ 此元件負責處理畫面最上方標題與介面操作按鈕的顯示內容
+ 依照所傳入的是否編輯/是否發表參數來決定樣貌
+ */
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import { FaTruckMonster } from 'react-icons/fa'
 import { useHistory, useParams } from 'react-router-dom'
 import BasicFetch from '../main/BasicFetch'
 
@@ -14,6 +18,8 @@ function ItinEditorHeader({
 }) {
   let history = useHistory()
   let { itin_id } = useParams()
+  // 發表或修改已發表內容時的顯示內容
+  // 內部又分為修改中或檢視中，完全依照指定之狀態顯示
   const displayPublish = (
     <div className="itin-editor-title publish-title d-flex justify-content-between">
       <div>
@@ -25,6 +31,7 @@ function ItinEditorHeader({
           <Button
             variant="info"
             onClick={() => {
+              // 執行的程式由父元件傳入
               handleSubmit()
             }}
           >
@@ -33,6 +40,7 @@ function ItinEditorHeader({
           <Button
             variant="danger"
             onClick={(e) => {
+              // 按下取消直接回上頁
               history.goBack()
             }}
           >
@@ -40,6 +48,7 @@ function ItinEditorHeader({
           </Button>
         </div>
       )}
+      {/* 僅有發文者檢視時會出現修改按鈕 */}
       {isMe && !isEdit && (
         <div className="d-flex align-items-center">
           <Button
@@ -54,6 +63,8 @@ function ItinEditorHeader({
             variant="danger"
             onClick={() => {
               if (
+                // 自製簡易fetch元件，用於僅需回傳true/false的單純情況
+                // 此處僅用來修改行程的發表與否，因此只需要確定是否成功
                 BasicFetch({
                   url: `itinerary/unpublish/${itin_id}`,
                   method: 'put',
@@ -70,6 +81,8 @@ function ItinEditorHeader({
       )}
     </div>
   )
+  // 未發表的私人行程，設計樣式與已發表完全不同
+  // 內部同樣分為修改中或檢視中，完全依照指定之狀態顯示
   const displayPrivate = (
     <div className="itin-editor-title custom-box-shadow">
       <div className="d-flex justify-content-between align-items-center mb-3">

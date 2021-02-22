@@ -1,18 +1,23 @@
+/**
+ * 檔案負責人: 柯政安
+ * 行程表詳細資料元件
+ * 出現在已公開發表的行程頁右手邊
+ * 讓使用者藉由點選左側的行程box，以js與css切換該行程的詳細資料顯示狀態
+ */
 import React from 'react'
 import DisplayMap from './DisplayMap'
 //測試用假資料
 import fakeTestingData from './testBoxData'
 import PicUploadRect from './PicUploadRect'
 //
-function ItinEditorDetail({
-  isEdit = true,
-  boxData = fakeTestingData,
-  setData = () => {},
-}) {
+function ItinEditorDetail({ isEdit = true, boxData = fakeTestingData }) {
+  //編輯中的顯示樣貌
+  //此時可讓使用者針對不同行程加入圖片與簡介文字
   const displayEdit = (
     <div className="itin-detail-wrapper custom-box-shadow">
       <div className="itin-map-header"></div>
       <div className="itin-detail-map-wrapper">
+        {/* 使用自製地圖元件顯示該行程所有景點的marker，並定位在第一個行程的經緯度 */}
         <DisplayMap
           boxData={boxData}
           center={{
@@ -22,6 +27,7 @@ function ItinEditorDetail({
         />
       </div>
       <hr />
+      {/* 利用給予的資料先製作出基本UI並產生符合行程數量的空欄位 */}
       {boxData.map((element, index) => (
         <h4 className={`dayTitle${index}`} key={index}>
           {element.title}
@@ -58,6 +64,9 @@ function ItinEditorDetail({
                     )}
                     設為主視覺
                   </div>
+                  {/* 自製照片上傳介面元件，可用來切換上傳按鈕與點圖片換圖兩種模式 */}
+                  {/* 原先想製作成可重複利用的元件，因此將className改為外部提供模式 */}
+                  {/* 後來因時間不及而成為半成品，僅限此處可用 */}
                   <PicUploadRect
                     originPic={ele.image}
                     giveClassName={{
@@ -79,10 +88,13 @@ function ItinEditorDetail({
       </form>
     </div>
   )
+  //單純顯示資料的樣貌
+  //此時無法編輯，只能查看
   const displayConst = (
     <div className="itin-detail-wrapper custom-box-shadow">
       <div className="itin-map-header"></div>
       <div className="itin-detail-map-wrapper">
+        {/* 使用自製地圖元件顯示該行程所有景點的marker，並定位在第一個行程的經緯度 */}
         <DisplayMap
           boxData={boxData}
           center={{

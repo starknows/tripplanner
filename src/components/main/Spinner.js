@@ -1,3 +1,8 @@
+/**
+ * 檔案負責人: 柯政安
+ * 此元件用來顯示讀取中的繞圈
+ */
+
 import React from 'react'
 function Spinner({ text }) {
   return (

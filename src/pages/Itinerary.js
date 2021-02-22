@@ -1,3 +1,8 @@
+/**
+ *檔案負責人: 柯政安
+ 此元件負責顯示行程總表頁面，用來組合所需的小元件
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Col, Button } from 'react-bootstrap'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -15,6 +20,7 @@ function Itinerary(props) {
   const [isLoading, setIsLoading] = useState(1)
   let history = useHistory()
   let location = useLocation()
+  // 按下新增行程會先判斷是否登入中
   function createItinerary() {
     if (localStorage.getItem('userData')) {
       history.push('/itinerary/new')

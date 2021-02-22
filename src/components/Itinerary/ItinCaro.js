@@ -1,3 +1,6 @@
+/**
+ * 因幻燈片未製作成reuse的共用元件，故僅能從組員那邊直接複製回來使用
+ */
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'

@@ -1,3 +1,13 @@
+/**
+ * 檔案負責人: 柯政安
+ * 用途與BigMap大致相同
+ * 但原先是想製作成共用地圖元件供其他組員的功能也能使用，並能依據傳入的行程列表顯示特定行程
+ * 甚至有考慮過以此版本取代邊探索技術邊製作的應急版BigMap，但最後因為時程因素，僅在行程製作工具中使用
+ * 最後也沒時間整合功能，未能直接取代BigMap
+ * 功能差異：
+ * 1. 根據傳入行程的第一天第一個行程決定地圖中心點
+ * 2. 沒有加入行程的按鈕
+ */
 import React, { useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 
@@ -106,7 +116,7 @@ function DisplayMap({
         defaultCenter={myPosition}
         defaultZoom={zoom}
         // options={mapOptions}
-        yesIWantToUseGoogleMapApiInternals // 設定為 true
+        yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)} // 載入完成後執行
         onClick={() => {
           if (document.querySelector('.map-info-open')) {
@@ -120,7 +130,7 @@ function DisplayMap({
           <PlaceMarker
             key={item.id}
             id={item.place_id}
-            lat={item.lat} //JSON引入版本
+            lat={item.lat}
             lng={item.lng}
             title={item.title}
           />

@@ -1,3 +1,10 @@
+/**
+ * 檔案負責人: 柯政安
+ * searchBar元件
+ * 實現了根據第一欄地區的選擇內容，決定第二欄城市該顯示的項目
+ * 會回傳所有選擇的項目
+ */
+
 import React, { useState, useEffect, useRef } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import { debounce } from 'lodash'

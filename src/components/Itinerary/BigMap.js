@@ -1,3 +1,19 @@
+/**
+ * 檔案負責人: 柯政安
+ * 此元件用來產生全螢幕寬的地圖
+ * 主要用途是個人製作行程表時尋找景點之用
+ * 以GoogleMapReact套件配合googlemap api製作而成
+ * 擁有以下功能：
+ * 1. 指定中心點開啟：目前預設為中央大學
+ * 2. 給予座標自動轉移地圖中心：目前設定為搜尋景點後，自動轉移到點選之景點座標
+ * 3. 搜尋中心點周遭景點：因google API限制，一次僅能取得20筆，難以掌控，
+ *    故改造成能夠自動整理景點，寫入資料庫備用的景點爬取工具
+ * 4. 根據給予的景點清單自動產生景點標誌
+ * 5. 計算各景點與中心點經緯度距離，目前設定顯示 1 公里內景點
+ * 其餘說明：
+ * 因景點並非時常變動，故不從資料庫獲取，而是直接從資料庫匯出列表，使用靜態檔案，擴充景點時更新該檔即可
+ * 爬取功能目前設定關閉中
+ */
 import React, { useState, useRef, useEffect } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { Button } from 'react-bootstrap'
@@ -5,13 +21,12 @@ import GoogleMapReact from 'google-map-react'
 import { debounce } from 'lodash'
 //利用debounce來避免敏感的onchange
 //引入 API key
-import { Key } from '../../Key'
+// import { Key } from '../../Key'
+//
 //靜態景點資料
 let itinData = require('./itinlistXXXX.json')
 let handleItinData = itinData[2].data
 //
-//套件範例元件
-// const AnyReactComponent = ({ text }) => <div>{text}</div>
 //marker元件
 const PlaceMarker = ({
   id,
@@ -28,6 +43,7 @@ const PlaceMarker = ({
       <h5>{title}</h5>
       <Button
         variant="info"
+        //按下按鈕後，將傳進元件內的景點資訊push到當前行程array最後一日的最後方
         onClick={(e) => {
           e.preventDefault()
           const originArray = Array.from(dataFromUser)
@@ -65,6 +81,7 @@ const PlaceMarker = ({
         className="map-markerIcon"
         src={'/images/marker.png'}
         alt={title}
+        //按下景點時關閉所有infoBox，並判斷該景點開閉狀態，針對該景點進行開閉切換
         onClick={(e) => {
           e.stopPropagation()
           if (document.querySelector('.map-info-open')) {
@@ -91,7 +108,8 @@ const PlaceMarker = ({
     </div>
   </div>
 )
-//記錄googlemap回傳的資料
+//整理並記錄googlemap API回傳的20筆附近景點資料
+//景點資料分為沒有地址的「純地名」的以及擁有地址的景點，這邊只抓有地址的景點
 function doRecord(data) {
   let handleDat = []
   data.forEach((ele, index) => {
@@ -106,10 +124,9 @@ function doRecord(data) {
       })
     }
   })
-  console.log(handleDat)
   if (handleDat) sendDatatoServer(handleDat)
 }
-//將資料傳送至後端儲存
+//將整理好的附近景點資料，傳送至後端資料庫儲存
 async function sendDatatoServer(data) {
   try {
     const response = await fetch(`http://localhost:5000/itinerary/addItin`, {
@@ -126,7 +143,7 @@ async function sendDatatoServer(data) {
     console.log(err)
   }
 }
-//距離計算
+//給予兩經緯度計算直線距離 (網路上找來的現成function)
 function distance(lat1, lon1, lat2, lon2, unit) {
   if (lat1 === lat2 && lon1 === lon2) {
     return 0
@@ -154,29 +171,30 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     return dist
   }
 }
-
-//本體
+//
+//
+//地圖元件本體
 function BigMap({
   center = { lat: 24.969328305278708, lng: 121.1954124510366 }, //中央大學
-  zoom = 18, //越大放越大
-  dataFromUser,
-  setDataFromUser,
+  zoom = 18, //數字越大越詳細
+  dataFromUser, //當下所有行程資料
+  setDataFromUser, //因為會操作行程資料，故也傳入
 }) {
   //
-  // 預設位置
+  // 預設中心點位置
   const [myPosition, setMyPosition] = useState({
     lat: 24.965173627005004, //中央路全家
     lng: 121.19192039564527,
   })
   //
   //地圖樣式
-  const mapOptions = { styles: null } //包含原生POI
+  const mapOptions = { styles: null } //若開啟，則地圖上會包含原生POI (point of interest)
   //
   //建立鉤子
   const [mapApiLoaded, setMapApiLoaded] = useState(false)
   const [mapInstance, setMapInstance] = useState(null)
   const [mapApi, setMapApi] = useState(null)
-  let inputRef = useRef(null) // 建立輸入框參考點
+  let inputRef = useRef(null) // 建立搜尋輸入框參考點
   const [inputText, setInputText] = useState('')
   const [autocompleteResults, setAutocompleteResults] = useState([])
   const [currentCenter, setCurrentCenter] = useState(center)
@@ -197,7 +215,7 @@ function BigMap({
       }
       setCurrentCenter(newPosition) // 改變地圖視角位置
       setMyPosition(newPosition) // 改變 MyPosition
-      //自動記錄開關 1
+      //自動記錄開關 1/2
       // doSearchPlace() //改變中心後重新搜尋地標
     }
   }
@@ -265,7 +283,7 @@ function BigMap({
     handleAutocomplete()
   }, [inputText]) // eslint-disable-line react-hooks/exhaustive-deps
   //
-  //自動記錄開關 2
+  //自動記錄開關 2/2
   // useEffect(() => {
   //   doRecord(places)
   // }, [places])
@@ -291,9 +309,6 @@ function BigMap({
                   >
                     　{item.structured_formatting.main_text}
                   </div>
-                  {/* <div className="map-search-plus">
-                    <FaPlus />
-                  </div> */}
                 </div>
               ))
             : null}
@@ -301,16 +316,17 @@ function BigMap({
       </div>
       <GoogleMapReact
         bootstrapURLKeys={{
-          key: Key,
-          libraries: ['places'], // 要在這邊放入要使用的 API
+          // key: Key,
+          libraries: ['places'], // 在這邊放入要使用的googlemap API
         }}
         center={currentCenter}
         onBoundsChange={handleCenterChange} //移動地圖邊界時觸發 handleCenterChange
         defaultCenter={center}
         defaultZoom={zoom}
-        // options={mapOptions}
-        yesIWantToUseGoogleMapApiInternals // 設定為 true
+        // options={mapOptions} //設定是否要開啟原生POI
+        yesIWantToUseGoogleMapApiInternals // 是否使用google map api
         onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)} // 載入完成後執行
+        //點擊地圖任意點則關閉所有infoBox
         onClick={() => {
           if (document.querySelector('.map-info-open')) {
             document
@@ -319,6 +335,7 @@ function BigMap({
           }
         }}
       >
+        {/* 利用景點列表產生景點 */}
         {handleItinData.map(
           (item) =>
             distance(
@@ -331,9 +348,9 @@ function BigMap({
               <PlaceMarker
                 key={item.id}
                 id={item.place_id}
-                // lat={item.geometry.location.lat()} //google取得版本
+                // lat={item.geometry.location.lat()} //從googlemap api直接取得時的版本
                 // lng={item.geometry.location.lng()}
-                lat={item.lat} //JSON引入版本
+                lat={item.lat} //用JSON檔引入時的版本
                 lng={item.lng}
                 title={item.title}
                 city={item.city}

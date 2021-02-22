@@ -1,3 +1,9 @@
+/**
+ * 檔案負責人: 柯政安
+ * 此元件用來做簡單的、只需要知道true/false的請求
+ * 因製作時間較晚，很多地方未使用此元件取代已完成功能
+ */
+
 async function BasicFetch({ url, method = 'get', data = {} }) {
   let reqBody = { method: method }
   if (method !== 'get') {
