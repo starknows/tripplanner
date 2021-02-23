@@ -1,7 +1,6 @@
 //會員中心頁連結
 import React from 'react'
-import { Nav } from 'react-bootstrap'
-import { Route, NavLink, Switch, Link } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import HistiryRoute from '../member/ShoppingHistory/HistoryRoute'
 import MyTravelBuddies from './MyTravelBuddies/MyTravelBuddies'
 import MeFavorites from '../main/MeFavorites'
@@ -10,27 +9,14 @@ import MyAccount from '../member/MyAccount'
 import MyItineraryTabs from './MyItinerary/MyItineraryTabs'
 function FunctionBar() {
   return (
-    //<Router>
     <>
       <div className="functio-bar">
-        <Nav.Link as={NavLink} to="/myAccount" exact>
-          我的帳戶
-        </Nav.Link>
-        <Nav.Link as={NavLink} to="/myAccount/itinerary">
-          我的行程
-        </Nav.Link>
-        <Nav.Link as={NavLink} to="/myAccount/TravelBuddies">
-          我的揪團
-        </Nav.Link>
-        <Nav.Link as={NavLink} to="/myAccount/favorites">
-          我的收藏
-        </Nav.Link>
-        <Nav.Link as={NavLink} to="/myAccount/Notice">
-          我的通知
-        </Nav.Link>
-        <Nav.Link as={NavLink} to="/myAccount/historyOrder">
-          購物紀錄
-        </Nav.Link>
+        <Link to="/myAccount">我的帳戶</Link>
+        <Link to="/myAccount/itinerary">我的行程</Link>
+        <Link to="/myAccount/TravelBuddies">我的揪團</Link>
+        <Link to="/myAccount/favorites">我的收藏</Link>
+        <Link to="/myAccount/Notice">我的通知</Link>
+        <Link to="/myAccount/historyOrder">購物紀錄</Link>
       </div>
       <Switch>
         <Route path="/myAccount/historyOrder">
@@ -53,7 +39,6 @@ function FunctionBar() {
         </Route>
       </Switch>
     </>
-    //</Router>
   )
 }
 

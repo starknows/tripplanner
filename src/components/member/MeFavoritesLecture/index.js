@@ -2,27 +2,21 @@
 import React, { useState, useEffect } from 'react'
 import { FaMapMarkerAlt, FaUsers, FaRegCalendarCheck } from 'react-icons/fa'
 import { IoMdTime } from 'react-icons/io'
-import { useHistory, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 //引入卡片
 // let cardData = require('../../Itinerary/testJsonData.json')
 // let handleTestData = cardData[2].data
 
 function MeFavoritesLecture({
-  // data = handleTestData,
-  // type = 'itinerary',
-  //title = '講座蔥油餅吃到飽之旅講座蔥油餅', //標題
-  //image, //圖片的檔名與附檔名ex: 'testImage.jpg'
-  // time1 = '2020/01/01', //第一個日期
-  // time2 = '2020/01/01', //第二個日期
   map1 = '北部', //地區1
   map2 = '桃園', //地區2
   duration = '19:00-21:00', //天數
-  // person = '小智', //卡片內顯示的人名
 }) {
-  let history = useHistory()
+  //拉取id1
   const [productCard, setProductCard] = useState('1')
 
-  async function getProductCard(props) {
+  //引入資料庫
+  async function getProductCard() {
     try {
       const response = await fetch('http://localhost:5000/productList', {
         method: 'get',

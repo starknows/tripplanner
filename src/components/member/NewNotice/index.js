@@ -1,34 +1,15 @@
-//通知鈴鐺表單
+//header通知鈴鐺表單
 import React, { useState, useEffect } from 'react'
 import './newnotice.scss'
-import { useHistory } from 'react-router-dom'
 
-function NewNotice({
-  id = 1, //資料的id
-  time1 = -1, //第一個日期
-  time2 = -1, //第二個日期
-  price = -1, //價格
-}) {
-  let history = useHistory()
+function NewNotice() {
   const [metbJoined, setMetbJoined] = useState([])
-  let type = 'travelBuddies'
-  if (time1 === -1) {
-    type = 'travelBuddies'
-  } else if (time2 !== -1) {
-    type = 'travelBuddies'
-    // 改
-  } else if (price !== -1) {
-    type = 'travelBuddies'
-  }
-  // let detailUrl = `/${type}/view/${id}`
-  async function gettbJoined(props) {
+
+  async function gettbJoined() {
     try {
-      const response = await fetch(
-        `http://localhost:5000/travelBuddies/${id}`,
-        {
-          method: 'get',
-        }
-      )
+      const response = await fetch(`http://localhost:5000/travelBuddies`, {
+        method: 'get',
+      })
       if (response.ok) {
         const data = await response.json()
         setMetbJoined(data)

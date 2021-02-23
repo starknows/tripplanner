@@ -9,6 +9,7 @@ import { message } from 'antd'
 // import LogoutHooks from './LogoutHooks'
 
 function Login(props) {
+  //訊息
   const success = () => {
     message.success('歡迎蒞臨~旅歷!')
   }
@@ -50,39 +51,20 @@ function Login(props) {
         console.log('我是誰', data)
         if (data) {
           setMember(data)
-          // localStorage.setItem('userName', 'memberId')
-          // localStorage.setItem('userid', data.member)
           localStorage.setItem('userData', JSON.stringify(data))
-
           localStorage.setItem('product_id', JSON.stringify('0'))
-
           setAuth(true)
-          // sessionStorage.setItem('userName', 'memberId')
-          // sessionStorage.setItem('userid', data.member)
-          success()
           history.push(`/myAccount`)
         } else {
           console.log('請輸入正確的帳號密碼')
         }
       }
     } catch (err) {
-      //alert('請輸入正確的帳號密碼!')
       console.log(err)
     }
   }
-  // useEffect(() => {
-  //   if (localStorage.getItem('userData')) {
-  //     console.log(`登入成功 會員: ${member}`)
-  //     setMember()
-  //     history.push(`/myAccount`)
-  //     history.push(`/myAccount/${member}`)
-  //   } else {
-  //     history.push('/login')
-  //     console.log('請重新輸入')
-  //   }
-  // }, [member])
 
-  //沒有則跳空的
+  //表單提示警告 沒有則跳空的
   const mesin = <samp></samp>
   const meserr = (
     <Toast
@@ -94,6 +76,7 @@ function Login(props) {
     </Toast>
   )
 
+  //form 登入輸入表單
   const display = (
     <div className="body-login">
       <div className="login-form form-group">
@@ -150,7 +133,7 @@ function Login(props) {
               </InputGroup>
             </Form.Group>
           </Form.Row>
-          {/* //跳訊息 */}
+          {/* 跳訊息 */}
           {member === true ? mesin : meserr}
           <Button
             type="submit"
@@ -159,7 +142,8 @@ function Login(props) {
               if (password.length < 6) {
                 toggleShowA()
               }
-              if (member === true) {
+              if (email === true) {
+                success()
                 setIsAuth(true)
               }
             }}
