@@ -16,6 +16,7 @@
 
 - HTML5
 - CSS/SCSS
+- Bootstrap
 - JavaScript (ES6)
 - React.js (create-react-app)
 - Node.js (Express.js)
