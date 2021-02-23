@@ -103,9 +103,8 @@ function BuyProducts({
   }
 
   const getIDdata = JSON.parse(localStorage.getItem('product_id'))
-
   const getproductdata = JSON.parse(localStorage.getItem(product_id))
-  // console.log(getproductdata)
+
   function newclass() {
     //寫入商品資訊
     localStorage.setItem(product_id, JSON.stringify(data))
@@ -215,11 +214,7 @@ function BuyProducts({
               <p>{earlyTicket}</p>
               <div className="plusAndMinus">
                 {early <= 0 ? (
-                  <Button
-                    variant="light"
-                    onClick={() => setEarly(early - 1)}
-                    disabled
-                  >
+                  <Button variant="light" disabled>
                     <AiFillMinusCircle />
                   </Button>
                 ) : (
@@ -227,25 +222,20 @@ function BuyProducts({
                     <AiFillMinusCircle />
                   </Button>
                 )}
-                {getIDdata != null ? (
-                  getIDdata.indexOf(product_id) === -1 ? (
-                    <p>{early <= 0 ? 0 : early}</p>
-                  ) : (
-                    <p>{getproductdata.early}</p>
-                  )
+                {getproductdata != null ? (
+                  <p>{getproductdata.early}</p>
                 ) : (
-                  <p>{early <= 0 ? 0 : early}</p>
+                  <p>{early}</p>
                 )}
-                {getIDdata != null ? (
-                  getIDdata.indexOf(product_id) === -1 ? (
-                    <Button variant="light" onClick={() => setEarly(early + 1)}>
-                      <AiFillPlusCircle />
-                    </Button>
-                  ) : (
-                    <Button variant="light" disabled>
-                      <AiFillPlusCircle />
-                    </Button>
-                  )
+
+                {single > 0 || group > 0 ? (
+                  <Button variant="light" disabled>
+                    <AiFillPlusCircle />
+                  </Button>
+                ) : getproductdata != null ? (
+                  <Button variant="light" onClick={() => setEarly(early + 1)}>
+                    <AiFillPlusCircle />
+                  </Button>
                 ) : (
                   <Button variant="light" onClick={() => setEarly(early + 1)}>
                     <AiFillPlusCircle />
@@ -257,11 +247,7 @@ function BuyProducts({
               <p>{singleTicket}</p>
               <div className="plusAndMinus">
                 {single <= 0 ? (
-                  <Button
-                    variant="light"
-                    onClick={() => setSingle(single - 1)}
-                    disabled
-                  >
+                  <Button variant="light" disabled>
                     <AiFillMinusCircle />
                   </Button>
                 ) : (
@@ -269,29 +255,24 @@ function BuyProducts({
                     <AiFillMinusCircle />
                   </Button>
                 )}
-                {getIDdata != null ? (
-                  getIDdata.indexOf(product_id) === -1 ? (
-                    <p>{single <= 0 ? 0 : single}</p>
-                  ) : (
-                    <p>{getproductdata.single}</p>
-                  )
+
+                {getproductdata != null ? (
+                  <p>{getproductdata.single}</p>
                 ) : (
-                  <p>{single <= 0 ? 0 : single}</p>
+                  <p>{single}</p>
                 )}
 
-                {getIDdata != null ? (
-                  getIDdata.indexOf(product_id) === -1 ? (
-                    <Button
-                      variant="light"
-                      onClick={() => setSingle(single + 1)}
-                    >
-                      <AiFillPlusCircle />
-                    </Button>
-                  ) : (
-                    <Button variant="light" disabled>
-                      <AiFillPlusCircle />
-                    </Button>
-                  )
+                {early > 0 || group > 0 ? (
+                  <Button variant="light" disabled>
+                    <AiFillPlusCircle />
+                  </Button>
+                ) : getproductdata != null ? (
+                  <Button
+                    variant="light"
+                    onClick={() => setSingle(getproductdata.single)}
+                  >
+                    <AiFillPlusCircle />
+                  </Button>
                 ) : (
                   <Button variant="light" onClick={() => setSingle(single + 1)}>
                     <AiFillPlusCircle />
@@ -303,11 +284,7 @@ function BuyProducts({
               <p>{groupTicket}</p>
               <div className="plusAndMinus">
                 {group <= 0 ? (
-                  <Button
-                    variant="light"
-                    onClick={() => setGroup(group - 1)}
-                    disabled
-                  >
+                  <Button variant="light" disabled>
                     <AiFillMinusCircle />
                   </Button>
                 ) : (
@@ -315,25 +292,16 @@ function BuyProducts({
                     <AiFillMinusCircle />
                   </Button>
                 )}
-                {getIDdata != null ? (
-                  getIDdata.indexOf(product_id) === -1 ? (
-                    <p>{group <= 0 ? 0 : group}</p>
-                  ) : (
-                    <p>{getproductdata.group}</p>
-                  )
+                {getproductdata != null ? (
+                  <p>{getproductdata.group}</p>
                 ) : (
-                  <p>{group <= 0 ? 0 : group}</p>
+                  <p>{group}</p>
                 )}
-                {getIDdata != null ? (
-                  getIDdata.indexOf(product_id) === -1 ? (
-                    <Button variant="light" onClick={() => setGroup(group + 1)}>
-                      <AiFillPlusCircle />
-                    </Button>
-                  ) : (
-                    <Button variant="light" disabled>
-                      <AiFillPlusCircle />
-                    </Button>
-                  )
+
+                {early > 0 || single > 0 ? (
+                  <Button variant="light" disabled>
+                    <AiFillPlusCircle />
+                  </Button>
                 ) : (
                   <Button variant="light" onClick={() => setGroup(group + 1)}>
                     <AiFillPlusCircle />
@@ -425,7 +393,7 @@ function BuyProducts({
                       ? setTimeout(() => {
                           goLogin()
                         }, 2000)
-                      : console.log('ok')}
+                      : console.log('有登入')}
                   </small>
                 </Modal.Header>
               </Modal>
