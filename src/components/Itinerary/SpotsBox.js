@@ -1,15 +1,11 @@
+/**
+ * 檔案負責人: 柯政安
+ * 此元件是每一個可供拖曳的小行程元件的基本樣貌
+ * 可接受傳入資料後顯示，並自動處理時間格式
+ */
+
 import React, { useEffect } from 'react'
 import { FaMapMarkerAlt, FaTimesCircle } from 'react-icons/fa' //  FaCar,FaTrain,FaWalking,
-let testData = {
-  order: 0,
-  type: 0,
-  title: '測試標題可以幾個字',
-  time: '0900',
-  lat: 24.96517,
-  lng: 121.19192,
-  image: '',
-  info: '',
-}
 
 function SpotsBox({
   isEdit = false,
@@ -20,7 +16,7 @@ function SpotsBox({
   doDelete,
 }) {
   const { title, begin } = data
-  // const tempData = dataFromUser
+  //將時間處理成需要的格式
   function handleTime(begin) {
     if (begin.length === 4) {
       let temp = Array.from(begin)
@@ -33,7 +29,7 @@ function SpotsBox({
   const inputTimeClass = `box-input-time time${index[0]}${index[1]}`
   const inputTitleClass = `box-input-title input${index[0]}${index[1]}`
   useEffect(() => {
-    // if (isEdit && dataFromUser[0].data.length > 0) {
+    //如果是編輯中，隨時確認畫面上顯示的資料是否與取得的資料同步
     if (isEdit) {
       if (
         document.querySelector(`.input${index[0]}${index[1]}`).value ===
@@ -51,8 +47,9 @@ function SpotsBox({
       }
     }
   }, [dataFromUser])
-
+  // 原本預計根據不同的行程顯示不同的ICON，後來沒實現這部分功能
   const typeIcon = <FaMapMarkerAlt size={26} />
+  // 修改中的顯示樣貌
   const displyEdit = (
     <div className="spotsbox-wrapper custom-box-shadow d-flex justify-content-between align-items-center">
       <span className="spotsbox-type">{typeIcon}</span>
@@ -75,6 +72,7 @@ function SpotsBox({
           }}
         />
       </span>
+      {/* 刪除行程按鈕，功能從父元件傳入 */}
       <span
         className="box-close-btn"
         onClick={() => {
@@ -85,6 +83,7 @@ function SpotsBox({
       </span>
     </div>
   )
+  // 單純顯示資料時的樣貌
   const displyConst = (
     <div className="spotsbox-wrapper custom-box-shadow d-flex justify-content-between align-items-center">
       <span className="d-flex align-items-center">

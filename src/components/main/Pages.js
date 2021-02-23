@@ -1,4 +1,9 @@
-//分頁元件
+/**
+ * 檔案負責人: 柯政安
+ * 分頁元件
+ * 根據父元件的資料產生相對應的頁數按鈕
+ */
+
 import React, { useState } from 'react'
 import { Pagination } from 'react-bootstrap'
 

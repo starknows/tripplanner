@@ -1,3 +1,8 @@
+/**
+ * 檔案負責人: 柯政安
+ * 此元件用來顯示查無資料的圖示說明
+ */
+
 import React from 'react'
 function NoData({ text }) {
   return (

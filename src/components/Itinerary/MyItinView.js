@@ -1,3 +1,8 @@
+/**
+ * 檔案負責人: 柯政安
+ * 此元件是完整的私人行程純檢視頁面呈現結果，用來組裝其他介面小元件
+ */
+
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import ItinEditorHeader from './ItinEditorHeader'
@@ -25,7 +30,7 @@ function MyItinView() {
       )
       if (response.ok) {
         const data = await response.json()
-        //私人行程需驗證是否為作者
+        //私人行程需驗證使用者是否為作者才能檢視，若非作者會顯示無此行程
         if (
           data[0].member_id !==
           JSON.parse(localStorage.getItem('userData')).newsId

@@ -1,5 +1,8 @@
-//卡片元件
-//
+/**
+ * 檔案負責人: 柯政安
+ * 卡片元件，用來顯示行程列表等基本卡片資料
+ * 愛心與follow功能因時間因素未完全實裝
+ */
 import React, { useState } from 'react'
 import StrCutter from './StrCutter'
 import { Link } from 'react-router-dom'

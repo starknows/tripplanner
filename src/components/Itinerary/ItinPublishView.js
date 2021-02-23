@@ -1,3 +1,9 @@
+/**
+ * 檔案負責人: 柯政安
+ * 此元件是完整的已發表行程頁面呈現結果，用來組裝其他介面小元件
+ * 根據父元件所給予的isEdit決定顯示的樣貌
+ * 此頁面依照商業邏輯無法修改行程排序，僅能修改行程簡介跟照片
+ */
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import ItinEditorHeader from './ItinEditorHeader'
@@ -6,14 +12,7 @@ import ItinEditor from './ItinEditor'
 import ItinEditorDetail from './ItinEditorDetail'
 import Spinner from '../main/Spinner'
 import NoData from '../main/NoData'
-//測試用假資料區
-// import fakeTestingData from './testBoxData' //純box陣列
-// let memberData = require('../member/member.json')
-// let fakeMemberData = memberData[2].data[0] //純member陣列
-// let cardData = require('./testJsonData.json')
-// let fakeCardData = cardData[2].data[0] //純行程陣列
-// let fakeUserId = 0 //預設使用者為0號
-//
+
 function ItinPublishView({ isEdit = false }) {
   const [dataFromDB, setgDataFromDB] = useState([])
   const [isLoading, setIsLoading] = useState(1)
@@ -21,6 +20,7 @@ function ItinPublishView({ isEdit = false }) {
   const [isMe, setIsMe] = useState(false)
   let { itin_id } = useParams()
   let history = useHistory()
+  //取得特定行程資料
   async function getDataFromDB() {
     try {
       const response = await fetch(
@@ -33,6 +33,7 @@ function ItinPublishView({ isEdit = false }) {
       if (response.ok) {
         const data = await response.json()
         setgDataFromDB(data)
+        //確認是否為自己發表的行程
         if (JSON.parse(localStorage.getItem('userData'))) {
           if (
             data[0].member_id ===
@@ -44,6 +45,7 @@ function ItinPublishView({ isEdit = false }) {
         if (data[0].publish_time === null) {
           setIsPublish(false)
         }
+        // 判斷是否有資料，如果資料長度為0，則讀取狀態為3，查無資料的圖片
         setTimeout(() => {
           if (data.length === 0) {
             setIsLoading(3)
@@ -56,16 +58,21 @@ function ItinPublishView({ isEdit = false }) {
       console.log('fetch err')
     }
   }
+  // 修改附加照片與簡介時，先行處理成後端需求的資料結構
   async function handleDataToDB() {
-    let dataReadyToSend = []
+    let dataReadyToSend = [] //準備用來承接所有資料
+    //行程的大標題與主視覺等基本資料
     let dataItin = {
       id: dataFromDB[1][0].data[0].itinerary_id,
       info: document.querySelector('.itin-basicdata-text').value,
       imageIndex:
         '-1' && document.querySelector('input[name="itin-kv"]:checked').value,
     }
+    //內部各個小行程的詳細資料，包含文字簡介與圖片
     let dataBox = []
+    //用formData的方式來傳照片至後端
     let formData = new FormData()
+    //用for迴圈確認所有文字簡介跟照片欄位是否有使用者輸入的資料，並記錄有資料的索引值
     for (let i = 0; i < dataFromDB[1].length; i++) {
       for (let j = 0; j < dataFromDB[1][i].data.length; j++) {
         let text = document.querySelector(`.textarea-${i}${j}`).value
@@ -83,6 +90,7 @@ function ItinPublishView({ isEdit = false }) {
         })
       }
     }
+    //先將使用者給的照片全部傳到後端
     try {
       let reqUrl = `http://localhost:5000/upload/itinBox`
       let reqBody = {
@@ -91,8 +99,12 @@ function ItinPublishView({ isEdit = false }) {
       }
       const response = await fetch(reqUrl, reqBody)
       if (response.ok) {
+        // 確認照片上傳成功後，取得檔名與後端路徑
+        // 準備將取得的圖片路徑存到資料庫中的行程資料內
+        // 在上面的for迴圈中已有特別記錄有需要新增照片的資料的image欄位為true
+        // 這邊按照順序直接將true值取代為正式的路徑準備寫入資料庫
+        // 沒有上傳圖片的部分則在資料庫中準備寫入NULL
         const data = await response.json()
-        console.log(data)
         dataBox.forEach((item) => {
           if (item.image === true) {
             item.image = `${data.url}` + data.name.shift()
@@ -101,7 +113,6 @@ function ItinPublishView({ isEdit = false }) {
           }
         })
         dataReadyToSend = [dataItin, dataBox]
-        console.log(dataReadyToSend)
         sendDataToDB(dataReadyToSend)
       }
     } catch (err) {
@@ -119,6 +130,7 @@ function ItinPublishView({ isEdit = false }) {
     try {
       const response = await fetch(reqUrl, reqBody)
       if (response.ok) {
+        // 若新增成功，直接將新資料蓋過前台已取得得資料，可確保畫面上即時更新，不跳出舊資料
         const data = await response.json()
         let tempData = dataFromDB
         tempData[0].publish_time = data.time
@@ -140,6 +152,7 @@ function ItinPublishView({ isEdit = false }) {
       console.log('fetch err')
     }
   }
+  // 此部分已在子元件內藉由basicFetch元件取代功能
   async function unPublish(itin_id) {
     let reqUrl = `http://localhost:5000/itinerary/unpublish/${itin_id}`
     let reqBody = {

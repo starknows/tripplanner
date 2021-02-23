@@ -1,29 +1,28 @@
-# Trip Planner
+# 旅歷 Trip Planner
 
-### 注意事項
+### 旅遊行程規劃網站
 
-開發時請使用 develop 分支或從 develop 再開新的個人分支
+資策會結訓專題作品，
+透過一站式的服務，滿足出發旅行前後的所有需求。
 
-```javascript
-//建立分支
-git branch <新增分支名>
-//切換分支
-git checkout <切換分支名>
-```
+- 會員系統 廖育聖 h73423352@gmail.com
+- 行程規劃工具 柯政安 starknows99@gmail.com
+- 揪團工具 葉文琦 gsn955431@gmail.com
+- 講座/購物車系統 邵瑞軒 top820510@gmail.com
 
-push 時也請指定開發用分支 develop 或自己的個人分支
+### 使用技術
 
-```javascript
-git push origin develop
-```
+- HTML5
+- CSS/SCSS
+- JavaScript (ES6)
+- React.js (create-react-app)
+- Node.js (Express.js)
+- MySQL 關聯式資料庫
 
-commit 時請在最後面加上個人可識別代號
+### 專題實機展示影片
 
-```javascript
-git commit -m "~訊息~ 可識別代號"
-```
+https://youtu.be/CVDfrZxq23Q
 
-### 時間規劃
+### 後端專案網址
 
-- 1/10 靜態結構完成
-- 1/17 網站功能完成
+https://github.com/starknows/tpbackend
