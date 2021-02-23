@@ -10,7 +10,7 @@
 - 揪團工具 葉文琦 gsn955431@gmail.com
 - 講座/購物車系統 邵瑞軒 top820510@gmail.com
 
-- [各人負責元件列表](https://github.com/starknows/tripplanner/blob/develop/fileDeveloper.md)
+- [各人負責檔案列表](https://github.com/starknows/tripplanner/blob/develop/fileDeveloper.md)
 
 ### 使用技術
 
