@@ -44,6 +44,9 @@ h3 {
 h4 {
   font-size: 20px;
 }
+h5 {
+  font-size: 16px;
+}
 p {
   margin: 0;
 }
@@ -76,7 +79,12 @@ body {
 .custom-box-shadow {
   box-shadow: 0 3px 6px rgba($color: $sub-dark-gray, $alpha: 0.6);
 }
-
+.HomeNavbar-inner {
+  background: $main-lightblue;
+}
+.pages-bar {
+  margin: 0 auto;
+}
 // header
 @import './header.scss';
 
@@ -85,6 +93,8 @@ body {
 
 // home
 @import './home.scss';
+// 首頁Searchbar
+@import './HomeSearchbar.scss';
 
 //memberPage
 @import './memberPage.scss';
@@ -118,12 +128,6 @@ body {
 
 //footer
 @import './footer.scss';
-
-//我的帳戶標題
-.MyAccount-title {
-  padding: 1rem;
-  margin: 1rem;
-}
 
 //Carousel
 @import '~slick-carousel/slick/slick.css';

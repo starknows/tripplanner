@@ -28,16 +28,27 @@
   color: #ffffff;
   font-size: 14px;
 }
-.tbmembersselect-title {
-  font-size: 1rem;
-  margin: 1rem 1rem;
+
+//我的揪團-團員確認-團員確認頁面
+.tb-members-select {
+  width: 80px;
+  height: 36px;
+  border: none;
+  border-radius: 3px;
+  background: $main-darkblue;
+  color: #ffffff;
+  font-size: 14px;
 }
-.tbMembersSelectPhoto {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  margin: 1rem 1rem 1rem 0rem;
+.tb-members-select-back-to-account {
+  width: 120px;
+  height: 36px;
+  border: none;
+  border-radius: 3px;
+  background: $main-darkblue;
+  color: #ffffff;
+  font-size: 14px;
 }
+
 //我的揪團-我參加的揪團-歷史紀錄-聊天室
 .tb-button-chatroom {
   width: 95px;
@@ -238,4 +249,33 @@
   margin: 1rem auto;
   text-align: center;
   font-size: 16px;
+}
+
+//我的揪團-歷史紀錄-團員評價頁面
+.tb-give-star-mine {
+  width: 80px;
+  height: 36px;
+  border: none;
+  border-radius: 3px;
+  background: $sub-green;
+  color: #ffffff;
+  font-size: 14px;
+}
+.tb-give-star {
+  width: 80px;
+  height: 36px;
+  border: none;
+  border-radius: 3px;
+  background: $main-darkblue;
+  color: #ffffff;
+  font-size: 14px;
+}
+.tb-give-star-back-to-account {
+  width: 120px;
+  height: 36px;
+  border: none;
+  border-radius: 3px;
+  background: $main-darkblue;
+  color: #ffffff;
+  font-size: 14px;
 }

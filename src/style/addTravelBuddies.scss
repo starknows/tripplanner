@@ -37,13 +37,25 @@
         color: #ffffff;
         font-size: 14px;
       }
-      .add-travelbuddies-preview {
+      .add-travelbuddies-cancel {
         width: 120px;
         height: 36px;
         border: none;
         border-radius: 3px;
         background: $main-gray;
         color: $sub-dark-gray;
+        font-size: 14px;
+        position: absolute;
+        margin-bottom: 10px;
+        right: 132px;
+      }
+      .add-travelbuddies-confirm {
+        width: 120px;
+        height: 36px;
+        border: none;
+        border-radius: 3px;
+        background: $main-darkblue;
+        color: #ffffff;
         font-size: 14px;
         position: absolute;
         margin-bottom: 10px;
@@ -70,4 +82,14 @@
   background: $main-darkblue;
   color: #ffffff;
   font-size: 14px;
+}
+.demo-button {
+  width: 150px;
+  height: 36px;
+  border: none;
+  border-radius: 3px;
+  background: $main-darkblue;
+  color: #ffffff;
+  font-size: 14px;
+  margin-left: 20px;
 }

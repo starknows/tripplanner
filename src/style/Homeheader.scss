@@ -1,0 +1,63 @@
+.navbar {
+  padding: 1px;
+  height: 80px;
+  width: 100%;
+}
+.HomeNavbar-color {
+  // background: black;
+  position: absolute;
+}
+.Navbar-Logo {
+  margin: 0px 200px 0px 60px;
+}
+.navbar img {
+  margin: 0;
+}
+
+.Navbar-icon {
+  width: 30px;
+  height: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  transition: 0.5s;
+  margin-right: 40px;
+}
+
+.HomeNavebar-figure {
+  width: 45px;
+  height: 45px;
+  margin-right: 60px;
+  margin-top: 10px;
+  opacity: 0.9;
+  transition: 0.5s;
+}
+
+.HomeNavebar-figure:hover {
+  opacity: 1;
+}
+
+.HomeNavebar-figure img {
+  height: 100%;
+  border-radius: 50%;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+.dropdown-menu {
+  text-align: center;
+  height: 100px;
+  transform: translateX(-30%);
+  position: relative;
+  opacity: 0.8;
+}
+//鈴鐺位置
+.badge {
+  color: #ffffff;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  right: 155px;
+}

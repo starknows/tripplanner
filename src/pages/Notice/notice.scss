@@ -1,36 +1,35 @@
 $sub-dark-gray: #707070;
 //通知表單&我的帳戶
-.notice-style{
-    background: #ffffff;
-    border-radius: 6px;
-    max-width: 810px;
-    box-shadow: 0 3px 6px rgba($color: $sub-dark-gray, $alpha: 0.6);
-    padding-bottom: 10px;
-    .pagination{
-      margin: 1rem;
-      align-items: center;
-      justify-content: center;
-    }
+.notice-style {
+  background: #ffffff;
+  border-radius: 6px;
+  max-width: 810px;
+  box-shadow: 0 3px 6px rgba($color: $sub-dark-gray, $alpha: 0.6);
+  padding-bottom: 10px;
+  .pagination {
+    margin: 1rem;
+    align-items: center;
+    justify-content: center;
   }
-  
-  // 對齊用
-  .not-table-mrove{
-    .not-id{
+}
+
+// 對齊用
+.not-table-mrove {
+  .not-id {
     width: 135px;
-    }
-    .text-left{
+  }
+  .text-left {
     width: 540px;
-    }
-    .text-right-time{
+  }
+  .text-right-time {
     width: 135px;
-    }
-    
   }
-  tr{
-    .not-td-left{
-      text-align: left;
-    }
-    .not-td-right{
-      text-align: center;
-    }
+}
+tr {
+  .not-td-left {
+    text-align: left;
   }
+  .not-td-right {
+    text-align: center;
+  }
+}

@@ -10,16 +10,16 @@ function MeTabs() {
     <>
       <div className="Mef-Tab-style">
         <Tabs
-          defaultActiveKey="mefavoritesstroke"
+          defaultActiveKey="mefavoritesstroke/:id"
           id="uncontrolled-tab-example"
         >
-          <Tab eventKey="mefavoritesstroke" title="我的行程">
+          <Tab eventKey="mefavoritesstroke/:id" title="我的行程">
             <MeFavoritesstroke />
           </Tab>
-          <Tab eventKey="mefavoritesgroup" title="我的揪團">
+          <Tab eventKey="mefavoritesgroup/:id" title="我的揪團">
             <MeFavoritesgroup />
           </Tab>
-          <Tab eventKey="mefavoritesLecture" title="我的講座">
+          <Tab eventKey="mefavoritesLecture/:id" title="我的講座">
             <MeFavoritesLecture />
           </Tab>
         </Tabs>

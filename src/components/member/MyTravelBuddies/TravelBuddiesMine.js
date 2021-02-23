@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Button, Modal } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import Pages from '../../main/Pages'
 import TBButtonRead from './TBButtonRead'
 import TBMineButtonEdit from './TBMineButtonEdit'
-import TBMineButtonMembersSelect from './TBMineButtonMembersSelect'
+import TBMineButtonSelectMembers from './TBMineButtonSelectMembers'
 import TBButtonChatroom from './TBButtonChatroom'
 import TBMineButtonDelete from './TBMineButtonDelete'
-import TBMineButtonDeleteNoMembers from './TBMineButtonDeleteNoMembers'
-import TBMembersSelect from './TBMembersSelect'
 
 function TravelBuddiesMine() {
   const [tbMine, settbMine] = useState([])
+  const id = JSON.parse(localStorage.getItem('userData')).newsId
   async function gettbMine(props) {
     try {
-      const response = await fetch('http://localhost:5000/tbmyaccount/tbmine', {
-        method: 'get',
-      })
+      const response = await fetch(
+        `http://localhost:5000/tbmyaccount/tbmine/${id}`,
+        {
+          method: 'get',
+        }
+      )
       if (response.ok) {
         const data = await response.json()
         settbMine(data)
@@ -25,14 +27,13 @@ function TravelBuddiesMine() {
       console.log(err)
     }
   }
-
   useEffect(() => {
     gettbMine()
   }, [])
 
   return (
     <tbody>
-      <div className="travelbuddiesmine-outbox">
+      <div className="travelbuddiesmine-outbox tab-content-travelbuddies">
         <Table>
           <thead>
             <tr>
@@ -65,9 +66,14 @@ function TravelBuddiesMine() {
                         v.tb_dateEnd.slice(8, 10)}
                     </td>
                     <td>
-                      <TBButtonRead /> <TBMineButtonEdit />{' '}
-                      <TBMineButtonMembersSelect /> <TBButtonChatroom />{' '}
+                      <TBButtonRead id={v.id} /> <TBMineButtonEdit id={v.id} />{' '}
+                      <TBMineButtonSelectMembers id={v.id} />{' '}
+                      <TBButtonChatroom
+                        id={v.id}
+                        tb_themeName={v.tb_themeName}
+                      />{' '}
                       <TBMineButtonDelete
+                        gettbMine={gettbMine}
                         id={v.id}
                         tb_themeName_={v.tb_themeName}
                       />{' '}
@@ -77,7 +83,6 @@ function TravelBuddiesMine() {
               })}
           </tbody>
         </Table>
-        <TBMembersSelect />
       </div>
       <div className="tb-pages">
         <Pages />

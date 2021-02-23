@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-// import { Route, Switch, useParams } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { MdAttachMoney } from 'react-icons/md'
 import { BiCalendarCheck } from 'react-icons/bi'
@@ -10,15 +9,24 @@ import { IoIosPeople } from 'react-icons/io'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 
 import TravelBuddiesLiked from '../components/TravelBuddies/TravelBuddiesLiked'
+import TBButtonSignedUp from '../components/TravelBuddies/TBButtonSignedUp'
+import TBMineButtonEditMain from '../components/member/MyTravelBuddies/TBMineButtonEditMain'
 
 function TravelBuddiesMainPage(props) {
-  let id = props.id
+  const userData = JSON.parse(localStorage.getItem('userData'))
+  const user = userData.member_name
+  let { id } = useParams()
   const [travelBuddies, setTravelBuddies] = useState([])
+  const [signedUp, setSignedUp] = useState(0)
+
   async function getTravelBuddies(props) {
     try {
-      const response = await fetch('http://localhost:5000/travelbuddies/', {
-        method: 'get',
-      })
+      const response = await fetch(
+        `http://localhost:5000/travelbuddies/${id}`,
+        {
+          method: 'get',
+        }
+      )
       if (response.ok) {
         const data = await response.json()
         setTravelBuddies(data)
@@ -37,13 +45,24 @@ function TravelBuddiesMainPage(props) {
       <>
         <div className="tb-mainpage-wrapper">
           <div className="tb-mainpage-hero-image">
-            <img src="/images/member/DSC_7875.jpg" alt="旅行揪團主圖片" />
+            <img
+              src={
+                'http://localhost:5000/images/tbPhoto/' +
+                travelBuddies[0].tb_themePhoto
+              }
+              alt={travelBuddies[0].tb_themePhoto}
+            />
           </div>
-
           <div className="tb-mainpage-flex">
             <div className="tb-mainpage-nameAndPhoto">
               <figure className="tb-mainpage-profilephoto">
-                <img src="/images/member/DSC_7875.jpg" alt="揪團主頭貼" />
+                <img
+                  src={
+                    'http://localhost:5000/images/member/' +
+                    travelBuddies[0].tb_memberphoto
+                  }
+                  alt={travelBuddies[0].tb_memberphoto}
+                />
               </figure>
               <h4 className="tb-mainpage-owner">
                 {travelBuddies.length > 0 && travelBuddies[0].tb_owner}
@@ -117,17 +136,22 @@ function TravelBuddiesMainPage(props) {
                 )
               })}
           </div>
+
           <div className="d-flex tb-mainpage-title">
             <h1> {travelBuddies[0].tb_themeName}</h1>
-            <div className="tb-mainpage-button-group">
-              <Button className="tb-mainpage-button">報名</Button>
-              <Button className="tb-mainpage-button">收藏</Button>
-            </div>
-          </div>
-          <div className="tb-mainpage-tag-group d-flex">
-            <div className="tb-mainpage-tag">台灣西部</div>
-            <div className="tb-mainpage-tag">彰化花海</div>
-            <div className="tb-mainpage-tag">網美景點</div>
+            {travelBuddies[0].tb_owner == user ? (
+              <div className="tb-mainpage-button-group">
+                <TBMineButtonEditMain id={travelBuddies[0].id} />
+              </div>
+            ) : (
+              <div className="tb-mainpage-button-group">
+                <TBButtonSignedUp
+                  id={travelBuddies[0].id}
+                  themeName={travelBuddies[0].tb_themeName}
+                />
+                <Button className="tb-mainpage-button">收藏</Button>
+              </div>
+            )}
           </div>
           <div className="tb-mainpage-maincontent-wrapper">
             <div className="tb-mainpage-maincontent">
@@ -141,7 +165,9 @@ function TravelBuddiesMainPage(props) {
                       travelBuddies[0].tb_dateBegin.slice(5, 7) +
                       '/' +
                       travelBuddies[0].tb_dateBegin.slice(8, 10) +
+                      ' ' +
                       '-' +
+                      ' ' +
                       travelBuddies[0].tb_dateEnd.slice(0, 4) +
                       '/' +
                       travelBuddies[0].tb_dateEnd.slice(5, 7) +
@@ -153,9 +179,9 @@ function TravelBuddiesMainPage(props) {
                   <AiOutlineClockCircle className="tb-mainpage-maincontent-icons" />
                   <div>{travelBuddies[0].tb_daysCategory}</div>
                 </div>
-                <div className="tb-mainpage-liked">
+                {/* <div className="tb-mainpage-liked">
                   <TravelBuddiesLiked />
-                </div>
+                </div> */}
               </div>
               <hr />
               <div className="tb-mainpage-intro">

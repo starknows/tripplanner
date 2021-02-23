@@ -1,16 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
-import Yilan001 from '../../images/travelBuddy/yilan_001.jpg'
-import Yilan002 from '../../images/travelBuddy/yilan_002.jpg'
-import Newtp001 from '../../images/travelBuddy/newtp_001.jpg'
-import Newtp002 from '../../images/travelBuddy/newtp_002.jpg'
-import Brunch001 from '../../images/travelBuddy/brunch_001.jpg'
-// import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
-
-const images = [Yilan001, Yilan002, Newtp001, Newtp002, Brunch001]
 
 function Carousel() {
   const [imgIndex, setImgIndex] = useState(0)
+  const [carouselImg, setCarouselImg] = useState('')
 
   const settings = {
     infinite: true,
@@ -22,26 +16,57 @@ function Carousel() {
     variableHeight: true,
     centerPadding: '270px',
     autoplay: true,
+    autoplaySpeed: 2000,
     arrow: false,
     beforeChange: (current, next) => setImgIndex(next),
   }
+
+  async function getCarousel(props) {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/travelbuddies/carousel`,
+        {
+          method: 'get',
+        }
+      )
+      if (response.ok) {
+        const data = await response.json()
+        setCarouselImg(data)
+      }
+    } catch (err) {
+      alert('無法得到伺服器資料，請稍後再重試')
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    getCarousel()
+  }, [])
 
   return (
     <>
       <div className="carousel-main">
         <Slider {...settings} className="carousel-outbox row">
-          {images.map((img, i) => (
-            <div
-              key={i}
-              className={
-                i === imgIndex
-                  ? 'carousel-active-slide carousel-slide'
-                  : 'carousel-slide'
-              }
-            >
-              <img src={img} alt={img} />
-            </div>
-          ))}
+          {carouselImg.length > 0 &&
+            carouselImg.map((v, i) => (
+              <Link to={'/travelBuddies/view/' + v.id}>
+                <div
+                  key={i}
+                  className={
+                    i === imgIndex
+                      ? 'carousel-active-slide carousel-slide'
+                      : 'carousel-slide'
+                  }
+                >
+                  <img
+                    src={
+                      'http://localhost:5000/images/tbPhoto/' + v.tb_themePhoto
+                    }
+                    alt={v.tb_themePhoto}
+                  />
+                  {/* <h1 className="carousel-title">{v.tb_themeName}</h1> */}
+                </div>
+              </Link>
+            ))}
         </Slider>
       </div>
     </>

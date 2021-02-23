@@ -12,12 +12,15 @@ function TravelBuddies(props) {
   const [searchFilter, setSearchFilter] = useState({})
   const [tbDataMain, settbDataMain] = useState([])
   let history = useHistory()
+
   function createTravelBuddies() {
     history.push('/travelBuddies/new')
   }
+
   useEffect(() => {
     console.log(searchFilter)
   }, [searchFilter])
+
   async function gettbDataMain(props) {
     try {
       const response = await fetch('http://localhost:5000/travelbuddies', {

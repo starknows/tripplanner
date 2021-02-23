@@ -2,33 +2,102 @@
   width: 1080px;
   height: auto;
   margin: 0 auto;
-  padding-top: 70px;
+  padding-top: 60px;
+  padding-bottom: 70px;
+  .tb-mainpage-goback {
+    width: 110px;
+    height: 36px;
+    border: none;
+    border-radius: 3px;
+    background: $main-darkblue;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    margin-left: 30px;
+  }
   h1 {
     font-size: 36px;
     color: $font-black;
+    span {
+      color: $main-darkblue;
+    }
   }
-  .travelbuddies-chatroom-itinerary {
-    width: 550px;
-    height: 680px;
+  .travelbuddies-chatroom-members {
+    width: 350px;
+    height: auto;
     margin-right: 30px;
-    background: pink;
+    background: #ffffff;
+    border: 1px solid $font-black;
+    border-radius: 10px;
+    padding: 1rem;
+    .travelbuddies-chatroom-members-identity {
+      font-size: 26px;
+      .tb-li {
+        font-size: 20px;
+      }
+    }
   }
   .travelbuddies-chatroom-main {
-    width: 500px;
+    width: 700px;
     height: 680px;
     background: #ffffff;
     border: 1px solid $font-black;
     border-radius: 10px;
-    h3 {
-      font-size: 26px;
-      color: $sub-dark-gray;
-    }
-    .travelbuddies-chatroom-hr {
-      width: 450px;
-      margin: 0 auto;
-    }
-    .travelbuddies-chatroom-maincontent {
+    .travelbuddies-chatroom-display {
+      height: 600px;
       overflow: auto;
+      .messageOthers {
+        margin-bottom: 1rem;
+        .message-user {
+          font-size: 20px;
+          margin-bottom: 0.5rem;
+        }
+        .message-message {
+          font-size: 20px;
+          display: inline-block;
+          background: $main-gray;
+          padding-right: 1rem;
+          padding-left: 1rem;
+          line-height: 46px;
+          border-radius: 22px;
+        }
+      }
+      .messageMine {
+        margin-bottom: 1rem;
+        text-align: right;
+        .message-user {
+          font-size: 20px;
+          margin-bottom: 0.5rem;
+        }
+        .message-message {
+          font-size: 20px;
+          display: inline-block;
+          background: $sub-gray;
+          padding-right: 1rem;
+          padding-left: 1rem;
+          line-height: 46px;
+          border-radius: 22px;
+          text-align: left;
+        }
+      }
+    }
+    .tb-chatroom-input-group {
+      padding: 0px 1rem 0px 1rem;
+      .tb-chatroom-input {
+        border-radius: 3px;
+        height: 36px;
+        width: 560px;
+        margin-right: 1rem;
+      }
+      .tb-chatroom-submit {
+        width: 80px;
+        height: 36px;
+        border: none;
+        border-radius: 3px;
+        background: $main-darkblue;
+        color: #ffffff;
+        font-size: 14px;
+      }
     }
   }
 }

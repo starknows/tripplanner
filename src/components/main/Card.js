@@ -1,6 +1,8 @@
-//卡片元件
-//除日期頭尾、天數、價格以外之屬性必填
-//
+/**
+ * 檔案負責人: 柯政安
+ * 卡片元件，用來顯示行程列表等基本卡片資料
+ * 愛心與follow功能因時間因素未完全實裝
+ */
 import React, { useState } from 'react'
 import StrCutter from './StrCutter'
 import { Link } from 'react-router-dom'
@@ -10,10 +12,13 @@ import {
   FaRegCalendarCheck,
   FaDollarSign,
   FaHeart,
+  FaRegHeart,
+  FaBookmark,
   FaRegBookmark,
 } from 'react-icons/fa'
 
 function Card({
+  imgFrom = 'front',
   id = 1, //資料的id
   title, //標題
   text, //內文
@@ -28,10 +33,13 @@ function Card({
   mark, //收藏人數
 }) {
   const imagePath = '/images/' + image
+  const backImage = 'http://localhost:5000/images/' + image
   const [nowLike, setNowLike] = useState(like)
   const [nowMark, setNowMark] = useState(mark)
+  const [isLike, setIsLike] = useState(0)
+  const [isFollow, setIsFollow] = useState(0)
   let handelTitle = StrCutter(title, 15)
-  let handelText = text && StrCutter(text, 62)
+  let handelText = text && StrCutter(text, 42)
   let type = 'itinerary'
   if (time1 === -1) {
     type = 'itinerary'
@@ -44,7 +52,7 @@ function Card({
   const calenderMark = (
     <>
       <FaRegCalendarCheck />
-      &emsp;
+      &ensp;
       {duration + '天'}
       &emsp;&emsp;
     </>
@@ -52,7 +60,7 @@ function Card({
   const priceMark = (
     <>
       <FaDollarSign />
-      &emsp;
+      &ensp;
       {price}
       &emsp;&emsp;
     </>
@@ -66,7 +74,11 @@ function Card({
         </p>
         <figure className="card-figure">
           <Link to={detailUrl}>
-            <img className="card-image" alt={title} src={imagePath} />
+            {imgFrom === 'front' ? (
+              <img className="card-image" alt={title} src={imagePath} />
+            ) : (
+              <img className="card-image" alt={title} src={backImage} />
+            )}
           </Link>
         </figure>
         <div className="card-content">
@@ -80,7 +92,7 @@ function Card({
         <p className="card-info content-small d-flex justify-content-between">
           <span>
             <FaUsers />
-            &emsp;
+            &ensp;
             {person}
             &emsp;&emsp;
             {duration !== -1 && calenderMark}
@@ -92,19 +104,38 @@ function Card({
           </Link>
         </p>
         <div className="buttonWrap d-flex">
-          <div role="button" className="card-button">
-            <p>
-              <FaHeart />
+          <div
+            role="button"
+            className="card-button card-like"
+            onClick={(e) => {
+              console.log(e.target)
+              if (e.target.classList.contains('card-like')) {
+                isLike ? setIsLike(0) : setIsLike(1)
+              }
+            }}
+          >
+            <p
+              onClick={(e) => {
+                console.log(e.target)
+                isLike ? setIsLike(0) : setIsLike(1)
+              }}
+            >
+              {isLike ? <FaHeart /> : <FaRegHeart />}
               &emsp;
-              {nowLike}
+              {isLike ? nowLike + 1 : nowLike}
             </p>
           </div>
           <div className="card-slice"></div>
-          <div role="button" className="card-button">
-            <p>
-              <FaRegBookmark />
+          <div role="button" className="card-button  card-follow">
+            <p
+              onClick={(e) => {
+                console.log(e.target)
+                isFollow ? setIsFollow(0) : setIsFollow(1)
+              }}
+            >
+              {isFollow ? <FaBookmark /> : <FaRegBookmark />}
               &emsp;
-              {nowMark}
+              {isFollow ? nowMark + 1 : nowMark}
             </p>
           </div>
         </div>

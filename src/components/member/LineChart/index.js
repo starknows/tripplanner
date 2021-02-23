@@ -20,7 +20,7 @@ const data = {
   datasets: [
     {
       label: '# of Votes',
-      data: [12, 19, 3, 50, 2, 3, 12, 19, 23, 5, 2, 3],
+      data: [22, 48, 18, 27, 13, 30, 52, 59, 53, 43, 32, 24],
       fill: false,
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgba(255, 99, 132, 0.2)',

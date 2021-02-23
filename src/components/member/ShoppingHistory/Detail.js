@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
+import QRCode from 'qrcode.react'
 function Detail() {
   let { orderId } = useParams()
   const [isLoading, setIsLoading] = useState(1)
@@ -16,7 +16,7 @@ function Detail() {
       )
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         setOrderDetail(data)
         setTimeout(() => {
           if (data.length === 0) {
@@ -41,7 +41,7 @@ function Detail() {
               <h4>訂單編號</h4>
               <h5>{orderDetail[0].ticketNumber}</h5>
             </div>
-            <img src="/images/classPhoto/qrcode.jpg" alt="Qrcode" />
+            <QRCode className="qrcode" value={orderDetail[0].className} />
             <hr />
             <div>
               <h4>購買日期</h4>
@@ -92,11 +92,6 @@ function Detail() {
             <div>
               <h4>電子信箱</h4>
               <h5>{orderDetail[0].mail}</h5>
-            </div>
-            <hr />
-            <div>
-              <h4>出生日期</h4>
-              <h5>{orderDetail[0].birthday}</h5>
             </div>
             <hr />
           </div>

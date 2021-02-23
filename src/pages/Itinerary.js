@@ -1,29 +1,41 @@
+/**
+ *檔案負責人: 柯政安
+ 此元件負責顯示行程總表頁面，用來組合所需的小元件
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Col, Button } from 'react-bootstrap'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 //
 import MyBreadCrumb from '../components//main/MyBreadCrumb/MyBreadCrumb'
 import SearchBar from '../components//main/SearchBar'
 import CardListPublic from '../components//main/CardListPublic'
-import Pages from '../components//main/Pages'
-import Carousel from '../components/TravelBuddies/Carousel'
+import ItinCaro from '../components/Itinerary/ItinCaro'
+import Spinner from '../components/main/Spinner'
+import NoData from '../components/main/NoData'
 
 function Itinerary(props) {
   const [searchFilter, setSearchFilter] = useState({})
   const [dataFromDB, segDataFromDB] = useState([])
   const [isLoading, setIsLoading] = useState(1)
   let history = useHistory()
+  let location = useLocation()
+  // 按下新增行程會先判斷是否登入中
   function createItinerary() {
-    history.push('/itinerary/new')
+    if (localStorage.getItem('userData')) {
+      history.push('/itinerary/new')
+    } else {
+      history.push('/login')
+    }
   }
   useEffect(() => {
-    console.log(searchFilter)
     getDataFromDB()
   }, [searchFilter])
   async function getDataFromDB() {
+    setIsLoading(1)
     try {
       const response = await fetch(
-        `http://localhost:5000/itinerary?` + new URLSearchParams(searchFilter),
+        `http://localhost:5000/itinerary${location.search}`,
         {
           method: 'get',
           mode: 'cors',
@@ -32,7 +44,6 @@ function Itinerary(props) {
       if (response.ok) {
         const data = await response.json()
         segDataFromDB(data)
-        console.log('data = ', data)
         setTimeout(() => {
           if (data.length === 0) {
             setIsLoading(3)
@@ -47,7 +58,7 @@ function Itinerary(props) {
   }
 
   const displayView = (
-    <>
+    <div>
       <div className="container itin-close-wrap">
         <MyBreadCrumb />
         <div className="d-flex justify-content-between">
@@ -57,23 +68,22 @@ function Itinerary(props) {
           </Button>
         </div>
       </div>
-      <Carousel />
+      <ItinCaro />
       <div className="container">
         <Col md={12}>
           <SearchBar setSearchFilter={setSearchFilter} />
         </Col>
-        <CardListPublic data={dataFromDB} type="itinerary" />
-        <Pages />
+        <CardListPublic data={dataFromDB} type="itinerary" itemPerPage={9} />
       </div>
-    </>
+    </div>
   )
 
   if (isLoading === 0) {
     return displayView
   } else if (isLoading === 1) {
-    return <h1>讀取中</h1>
+    return <Spinner text={'讀取中'} />
   } else {
-    return <h1>查無行程</h1>
+    return <NoData text={'查無此行程'} />
   }
 }
 

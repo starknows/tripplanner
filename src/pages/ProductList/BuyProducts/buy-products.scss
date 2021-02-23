@@ -91,7 +91,10 @@
     svg {
       width: 20px;
       height: 20px;
-      margin-right: 1rem;
+      margin-right: 8px;
+    }
+    p {
+      margin-right: 12px;
     }
   }
 
@@ -120,6 +123,21 @@
     }
   }
 }
+.none {
+  display: none;
+}
+.modalButton {
+  display: flex;
+  .keepShop,
+  .goNextOne {
+    font-family: 'Noto Sans TC';
+    padding: 0 0;
+    width: 100px;
+    height: 30px;
+    margin: 8px;
+    background-color: #4464be;
+  }
+}
 .buttonAndHeart {
   text-align: center;
 
@@ -143,6 +161,7 @@
       height: 24px;
     }
   }
+
   .followMyHeart {
     display: flex;
     justify-content: center;

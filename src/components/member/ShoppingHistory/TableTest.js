@@ -15,8 +15,8 @@ function TableTest({
   return (
     <>
       <td>{orderId}</td>
-      <td>{PurchaseDate}</td>
       <td>{ticketNumber}</td>
+      <td>{PurchaseDate}</td>
       <td>{many}張</td>
       <td>NT$ {price}</td>
       <td>

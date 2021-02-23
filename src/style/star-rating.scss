@@ -24,3 +24,35 @@
     cursor: default;
   }
 }
+
+//tb-star
+.starOn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #46beeb;
+  font-size: 30px;
+}
+.starOff {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: $main-gray;
+  font-size: 30px;
+}
+.star-rating-outbox {
+  text-align: center;
+  width: 450px;
+  .star-rating-name {
+    font-size: 20px;
+    margin-left: 100px;
+    text-align: left;
+  }
+}
+
+.tb-check-star-rating {
+  text-align: center;
+  width: 450px;
+}

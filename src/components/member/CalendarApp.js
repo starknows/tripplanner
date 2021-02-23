@@ -12,6 +12,3 @@ function CalendarApp() {
   )
 }
 export default CalendarApp
-
-//實際功能還沒做
-//要改感覺很麻煩 有時間再說

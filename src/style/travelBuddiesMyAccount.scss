@@ -1,5 +1,9 @@
+//跑版修改用
+.tab-content-travelbuddies {
+  position: relative;
+  left: 5px;
+}
 //我的揪團
-
 .travelbuddiesmine-outbox {
   position: relative;
   Table {
@@ -127,6 +131,93 @@
       }
       td:nth-child(5) {
         text-align: right;
+      }
+    }
+  }
+}
+
+//我的揪團-選擇團員
+.travelbuddiesselect-outbox {
+  position: relative;
+  Table {
+    table-layout: fixed;
+    thead {
+      text-align: center;
+      font-weight: normal;
+      color: $font-black;
+      font-size: 16px;
+      background: $sub-gray;
+    }
+    tbody {
+      tr:nth-child(2n + 1) {
+        background: $main-gray;
+      }
+      tr:nth-child(2n) {
+        background: $sub-gray;
+      }
+      td:nth-child(1) {
+        text-align: center;
+      }
+      td {
+        vertical-align: middle;
+      }
+      td:nth-child(2) {
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+      }
+      td:nth-child(3) {
+        text-align: center;
+      }
+      td:nth-child(4) {
+        text-align: center;
+      }
+      td:nth-child(5) {
+        text-align: center;
+      }
+    }
+  }
+}
+
+//歷史紀錄-評價團員
+.travelbuddiesselect-outbox {
+  position: relative;
+  Table {
+    table-layout: fixed;
+    thead {
+      text-align: center;
+      font-weight: normal;
+      color: $font-black;
+      font-size: 16px;
+      background: $sub-gray;
+    }
+    tbody {
+      tr:nth-child(2n + 1) {
+        background: $main-gray;
+      }
+      tr:nth-child(2n) {
+        background: $sub-gray;
+      }
+      td:nth-child(1) {
+        text-align: center;
+      }
+      td {
+        vertical-align: middle;
+      }
+      td:nth-child(2) {
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+      }
+      td:nth-child(3) {
+        text-align: center;
+      }
+      td:nth-child(4) {
+        text-align: center;
       }
     }
   }

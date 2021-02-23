@@ -21,6 +21,7 @@ function MapProduct(props) {
       )
       if (response.ok) {
         const data = await response.json()
+
         setProductData(data)
       }
     } catch (err) {
@@ -59,6 +60,7 @@ function MapProduct(props) {
           needToKnow={v.needToKnow}
           teacher_photo={v.teacher_photo}
           teacher_history={v.teacher_history}
+          like={v.likeheart}
           mapSrc={v.mapSrc}
           teacher_title={v.teacher_title}
           changeData={props.changeData}
@@ -92,6 +94,7 @@ function CarOneAndTwo(props) {
   useEffect(() => {
     getInCarOne()
   }, [])
+
   return (
     <>
       {inCarOne.length > 0 && (

@@ -1,4 +1,12 @@
+/**
+ * 檔案負責人: 柯政安
+ * searchBar元件
+ * 實現了根據第一欄地區的選擇內容，決定第二欄城市該顯示的項目
+ * 會回傳所有選擇的項目
+ */
+
 import React, { useState, useEffect, useRef } from 'react'
+import { useLocation, useHistory } from 'react-router-dom'
 import { debounce } from 'lodash'
 //利用debounce來避免敏感的onchange
 //
@@ -16,6 +24,9 @@ function SearchBar({
   day = ['不限', '1日', '2-3日', '4-5日', '6-7日', '8日以上'],
   setSearchFilter = () => {},
 }) {
+  let history = useHistory()
+  let location = useLocation()
+  console.log(location)
   let inputRef = useRef(null) // 建立輸入框參考點
   //建立回傳用物件
   const [returnObject, setReturnObject] = useState({
@@ -30,7 +41,7 @@ function SearchBar({
   const [selectTown, setSelectTown] = useState('全部')
   const [selectDay, setSelectDay] = useState(0)
   const [nowArea, setNowArea] = useState(0)
-  //偵測地區變化
+
   useEffect(() => {
     let currentValue = {
       keyword: inputText,
@@ -127,6 +138,9 @@ function SearchBar({
           role="button"
           onClick={() => {
             setSearchFilter(returnObject)
+            history.push(
+              location.pathname + '?' + new URLSearchParams(returnObject)
+            )
           }}
           className="do-search-button"
         ></div>

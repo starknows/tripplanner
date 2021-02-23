@@ -167,6 +167,16 @@ body {
       // 以上為 step1 獨有
 
       // 以下為 step2 獨有
+      .have_button {
+        display: flex;
+        justify-content: space-between;
+
+        .fast_input_button {
+          width: 120px;
+          height: 40px;
+          margin-top: 60px;
+        }
+      }
 
       .about-member {
         margin-top: 32px;
@@ -301,6 +311,7 @@ body {
   }
   h3 {
     margin: 16px auto;
+    color: $info;
   }
 }
 
@@ -328,5 +339,68 @@ body {
     height: 40px;
     margin: 16px auto;
     opacity: 0.8;
+  }
+}
+.gobuyProduct {
+  margin-bottom: 16px;
+}
+.go_center {
+  width: 800px;
+  margin: 16px auto;
+  display: flex;
+  justify-content: space-around;
+  flex: 1 0 0;
+
+  .nullphoto {
+    width: 200px;
+    height: 150px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .crashButtonAndbuyButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .crashButton {
+      width: 25px;
+      height: 25px;
+      margin: 0 auto;
+      padding: 0;
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .gocheck {
+      width: 80px;
+      height: 40px;
+      margin-top: 16px;
+    }
+  }
+
+  .carlabel {
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 0;
+
+    h4 {
+      color: #4464be;
+    }
+    .p1 {
+      margin: 8px 0;
+    }
+  }
+  .tickerZone {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
   }
 }

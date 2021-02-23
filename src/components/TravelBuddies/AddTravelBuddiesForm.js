@@ -4,16 +4,18 @@ import { useHistory } from 'react-router-dom'
 import FormControl from 'react-bootstrap/FormControl'
 import FormCheck from 'react-bootstrap/FormCheck'
 import FormFile from 'react-bootstrap/FormFile'
-import PicUploadRect from '../Itinerary/PicUploadRect'
+import TBPicUploadRect from './TBPicUploadRect'
 import Modal from 'react-bootstrap/Modal'
+import $ from 'jquery'
 
 function AddTravelBuddiesForm() {
+  let history = useHistory()
   const [validated, setValidated] = useState(false)
   const [importFromItinerary, setImportFromItinerary] = useState(false)
   const [importFromCollection, setImportFromCollection] = useState(false)
   const [tbThemeName, settbThemeName] = useState('')
-  const [tbThemePhoto, settbThemePhoto] = useState('')
-  const [tbRegionCategory, settbRegionCategory] = useState([])
+  const [tbThemePhotoToBack, settbThemePhotoToBack] = useState('')
+  // const [tbThemePhoto, settbThemePhoto] = useState('')
   const [tbCityCategory, settbCityCategory] = useState([])
   const [tbDateBegin, settbDateBegin] = useState('')
   const [tbDateEnd, settbDateEnd] = useState('')
@@ -23,13 +25,57 @@ function AddTravelBuddiesForm() {
   const [tbPersonsNeeded, settbPersonsNeeded] = useState('')
   const [tbGenderNeeded, settbGenderNeeded] = useState('')
   const [tbThemeIntro, settbThemeIntro] = useState('')
-  const [citySelect, setCitySelect] = useState(false)
+  const [buttonDemo, setButtonDemo] = useState(false)
 
-  async function addTravelBuddies() {
+  // settbCityCategory(
+  //   $('input:checkbox:checked[name="tbCityCategory"]').each(function (i) {
+  //     tbCityCategory[i] = this.value
+  //   })
+  // )
+
+  function checkChange(e) {
+    $('input[name="tbCityCategory[]"]:checked').each(function (i) {
+      tbCityCategory[i] = this.value
+    })
+  }
+
+  function setDemo() {
+    settbThemeName('綠島一週小旅行')
+    settbDateBegin('2021-04-01')
+    settbDateEnd('2021-04-07')
+    settbLastApprovedDate('2021-03-25')
+    settbEstimatedCost('10000')
+    settbPersonsNeeded('5')
+    settbThemeIntro(
+      '綠島舊名火燒島，位於臺東市東方約33公里的海面上，面積16.2平方公里，由火山集塊岩所構成的島嶼，因長年受風化及海水侵蝕，形成曲折多變的海岸景觀。巍峨奇岩巨石、陡峭台地海岸、潔淨的白色沙灘、翠綠草原、獨特的海底溫泉、嶙峋珊瑚礁裙、綺麗海底世界、以及豐盛的植物等優渥的條件，使得綠島這個遺世獨立的小島，搖身一變成東部的海上樂園。'
+    )
+  }
+
+  async function handlePicToDB() {
+    let formData = new FormData()
+    let imgFile = document.querySelector('#tbMainPhoto')
+    formData.append('file', imgFile.files[0])
+    try {
+      let reqUrl = `http://localhost:5000/upload/tbPhoto`
+      let reqBody = {
+        method: 'post',
+        body: formData,
+      }
+      const response = await fetch(reqUrl, reqBody)
+      if (response.ok) {
+        const data = await response.json()
+        const tbThemePhoto = data.name[0]
+        console.log(data.name[0])
+        addTravelBuddies(tbThemePhoto)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  async function addTravelBuddies(tbThemePhoto) {
     const newTravelBuddies = {
       tbThemeName,
       tbThemePhoto,
-      tbRegionCategory,
       tbCityCategory,
       tbDateBegin,
       tbDateEnd,
@@ -40,10 +86,10 @@ function AddTravelBuddiesForm() {
       tbGenderNeeded,
       tbThemeIntro,
     }
-
+    console.log(newTravelBuddies)
     try {
       // 從伺服器得到資料
-      const response = await fetch('http://localhost:5000/', {
+      const response = await fetch('http://localhost:5000/travelbuddies', {
         method: 'post',
         body: JSON.stringify(newTravelBuddies),
         headers: {
@@ -51,19 +97,17 @@ function AddTravelBuddiesForm() {
           'Content-Type': 'application/json',
         },
       })
-
       // ok只能判斷201-299狀態碼的情況
       if (response.ok) {
         // 剖析資料為JS的數值
         const data = await response.json()
-        console.log(data)
-
-        // 設定資料到member狀態
-        if (data.id) alert('新增成功')
+        console.log('data:', data)
+        if (data.id) console.log('success')
+        // history.push('/travlBuddies')
       }
     } catch (err) {
       // 發生錯誤的處理情況
-      alert('無法得到伺服器資料，請稍後再重試')
+      // alert('無法得到伺服器資料，請稍後再重試')
       console.log(err)
     }
   }
@@ -83,11 +127,19 @@ function AddTravelBuddiesForm() {
       <div className="add-travelbuddies-outbox">
         <div className="add-travelbuddies-middle">
           <Form validated={validated} onSubmit={handleSubmit}>
-            <h1 className="add-travelbuddies-topic">新增旅行揪團</h1>
-            <canvas className="add-travelbuddies-picture">
-              <div>請選擇檔案或拖曳上傳</div>
-            </canvas>
-            <Form.Group controlId="travelBuddiesThemeName">
+            <div className="d-flex">
+              <h1 className="add-travelbuddies-topic">新增旅行揪團</h1>
+              <Button
+                className="demo-button"
+                onClick={() => {
+                  setButtonDemo(true)
+                  setDemo()
+                }}
+              >
+                Demo 小幫手
+              </Button>
+            </div>
+            <Form.Group className="mt-3" controlId="travelBuddiesThemeName">
               <Form.Label htmlFor="travelBuddiesThemeName">
                 旅行揪團名稱：
               </Form.Label>
@@ -99,71 +151,26 @@ function AddTravelBuddiesForm() {
                 onChange={(e) => {
                   settbThemeName(e.target.value)
                 }}
+                defaultValue={buttonDemo === true ? '綠島一週小旅行' : ''}
                 required
               />
               <Form.Control.Feedback type="invalid">
                 旅行揪團名稱為必填欄位
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="travelBuddiesRegionCategory">
-              <Form.Label htmlFor="travelBuddiesRegionCategory">
-                地區分類：
-              </Form.Label>
-              {['checkbox'].map((type) => (
-                <div key={`inline-${type}`} className="mb-3">
-                  <Form.Check
-                    inline
-                    label="北部"
-                    type={type}
-                    id={`inline-${type}-regioncategory1`}
-                    name="tbRegionCategory[]"
-                    value="1"
-                    onChange={() => {
-                      setCitySelect(true)
-                    }}
-                  />
-                  <Form.Check
-                    inline
-                    label="中部"
-                    type={type}
-                    id={`inline-${type}-regioncategory2`}
-                    name="tbRegionCategory[]"
-                    value="2"
-                  />
-                  <Form.Check
-                    inline
-                    label="南部"
-                    type={type}
-                    id={`inline-${type}-regioncategory3`}
-                    name="tbRegionCategory[]"
-                    value="3"
-                  />
-                  <Form.Check
-                    inline
-                    label="東部"
-                    type={type}
-                    id={`inline-${type}-regioncategory4`}
-                    name="tbRegionCategory[]"
-                    value="4"
-                  />
-                  <Form.Check
-                    inline
-                    label="離島"
-                    type={type}
-                    id={`inline-${type}-regioncategory5`}
-                    name="tbRegionCategory[]"
-                    value="5"
-                  />
-                </div>
-              ))}
-              <Form.Control.Feedback type="invalid">
-                地區分類為必選
-              </Form.Control.Feedback>
+            <Form.Group className="" controlId="travelBuddiesThemePhoto">
+              <Form.File id="travelBuddiesThemePhoto">
+                <Form.File.Label>旅行揪團主圖片：</Form.File.Label>
+                <Form.File.Input
+                  id="tbMainPhoto"
+                  onChange={(e) => {
+                    settbThemePhotoToBack(e.target.value)
+                  }}
+                />
+              </Form.File>
             </Form.Group>
-            <Form.Group
-              controlId="travelBuddieCityCategory"
-              style={{ display: 'none' }}
-            >
+
+            <Form.Group controlId="travelBuddieCityCategory">
               <Form.Label htmlFor="travelBuddieCityCategory">
                 縣市分類：
               </Form.Label>
@@ -176,6 +183,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory1`}
                     name="tbCityCategory[]"
                     value="1"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -184,6 +192,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory2`}
                     name="tbCityCategory[]"
                     value="2"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -192,6 +201,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory3`}
                     name="tbCityCategory[]"
                     value="3"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -200,6 +210,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory4`}
                     name="tbCityCategory[]"
                     value="4"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -208,6 +219,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory5`}
                     name="tbCityCategory[]"
                     value="5"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -224,6 +236,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory7`}
                     name="tbCityCategory[]"
                     value="7"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -232,6 +245,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory8`}
                     name="tbCityCategory[]"
                     value="8"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -248,6 +262,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory10`}
                     name="tbCityCategory[]"
                     value="10"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -256,6 +271,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory11`}
                     name="tbCityCategory[]"
                     value="11"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -272,6 +288,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory13`}
                     name="tbCityCategory[]"
                     value="13"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -280,6 +297,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory14`}
                     name="tbCityCategory[]"
                     value="14"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -288,6 +306,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory15`}
                     name="tbCityCategory[]"
                     value="15"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -296,6 +315,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory16`}
                     name="tbCityCategory[]"
                     value="16"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -304,6 +324,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory17`}
                     name="tbCityCategory[]"
                     value="17"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -312,6 +333,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory18`}
                     name="tbCityCategory[]"
                     value="18"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -320,6 +342,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory19`}
                     name="tbCityCategory[]"
                     value="19"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -328,6 +351,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory20`}
                     name="tbCityCategory[]"
                     value="20"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -336,6 +360,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory21`}
                     name="tbCityCategory[]"
                     value="21"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -344,6 +369,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory22`}
                     name="tbCityCategory[]"
                     value="22"
+                    onChange={(e) => checkChange(e)}
                   />
                   <Form.Check
                     inline
@@ -352,6 +378,7 @@ function AddTravelBuddiesForm() {
                     id={`inline-${type}-citycategory23`}
                     name="tbCityCategory[]"
                     value="23"
+                    onChange={(e) => checkChange(e)}
                   />
                 </div>
               ))}
@@ -371,6 +398,10 @@ function AddTravelBuddiesForm() {
                     type="date"
                     placeholder=""
                     required
+                    onChange={(e) => {
+                      settbDateBegin(e.target.value)
+                    }}
+                    defaultValue={buttonDemo === true ? '2021-04-01' : ''}
                   />
                   <Form.Control.Feedback type="invalid">
                     請選擇旅行開始日期
@@ -388,6 +419,10 @@ function AddTravelBuddiesForm() {
                     type="date"
                     placeholder=""
                     required
+                    onChange={(e) => {
+                      settbDateEnd(e.target.value)
+                    }}
+                    defaultValue={buttonDemo === true ? '2021-04-07' : ''}
                   />
                   <Form.Control.Feedback type="invalid">
                     請選擇旅行結束日期
@@ -403,6 +438,10 @@ function AddTravelBuddiesForm() {
                     as="select"
                     id="tbDaysCategory"
                     name="tbDaysCategory"
+                    onChange={(e) => {
+                      settbDaysCategory(e.target.value)
+                    }}
+                    defaultValue={buttonDemo === true ? '4' : ''}
                   >
                     <option value="1">1日遊</option>
                     <option value="2">2-3日遊</option>
@@ -411,7 +450,7 @@ function AddTravelBuddiesForm() {
                     <option value="5">8日遊或以上</option>
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
-                    請選擇旅行結束日期
+                    請選擇旅行天數分類
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
@@ -428,6 +467,10 @@ function AddTravelBuddiesForm() {
                     type="date"
                     placeholder=""
                     required
+                    onChange={(e) => {
+                      settbLastApprovedDate(e.target.value)
+                    }}
+                    defaultValue={buttonDemo === true ? '2021-03-25' : ''}
                   />
                   <Form.Control.Feedback type="invalid">
                     請選擇最後審核日期
@@ -445,6 +488,10 @@ function AddTravelBuddiesForm() {
                     type="number"
                     placeholder=""
                     required
+                    onChange={(e) => {
+                      settbEstimatedCost(e.target.value)
+                    }}
+                    defaultValue={buttonDemo === true ? '10000' : ''}
                   />
                   <Form.Control.Feedback type="invalid">
                     請填寫預估花費
@@ -464,6 +511,10 @@ function AddTravelBuddiesForm() {
                     type="number"
                     placeholder=""
                     required
+                    onChange={(e) => {
+                      settbPersonsNeeded(e.target.value)
+                    }}
+                    defaultValue={buttonDemo === true ? '5' : ''}
                   />
                   <Form.Control.Feedback type="invalid">
                     請填寫需求人數
@@ -475,37 +526,20 @@ function AddTravelBuddiesForm() {
                   <Form.Label htmlFor="travelBuddiesGenderNeeded">
                     需求性別：
                   </Form.Label>
-                  {['radio'].map((type) => (
-                    <div key={`inline-${type}`} className="mb-3 mt-2">
-                      <Form.Check
-                        inline
-                        label="男性"
-                        type={type}
-                        id={`inline-${type}-genderNeeded1`}
-                        name="tbGenderNeeded"
-                        value="男性"
-                        className="mr-3"
-                      />
-                      <Form.Check
-                        inline
-                        label="女性"
-                        type={type}
-                        id={`inline-${type}-genderNeeded2`}
-                        name="tbGenderNeeded"
-                        value="女性"
-                        className="mr-3"
-                      />
-                      <Form.Check
-                        inline
-                        label="男女皆可"
-                        type={type}
-                        id={`inline-${type}-genderNeeded2`}
-                        name="tbGenderNeeded"
-                        value="男女皆可"
-                        className="mr-3"
-                      />
-                    </div>
-                  ))}
+                  <Form.Control
+                    as="select"
+                    id="tbGenderNeeded"
+                    name="tbGenderNeeded"
+                    placeholder=""
+                    onChange={(e) => {
+                      settbGenderNeeded(e.target.value)
+                    }}
+                    defaultValue={buttonDemo === true ? '男女皆可' : ''}
+                  >
+                    <option value="男性">男性</option>
+                    <option value="女性">女性</option>
+                    <option value="男女皆可">男女皆可</option>
+                  </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     請選擇需求性別
                   </Form.Control.Feedback>
@@ -522,12 +556,20 @@ function AddTravelBuddiesForm() {
                 id="tbThemeIntro"
                 name="tbThemeIntro"
                 placeholder="請盡情介紹您的旅行揪團，吸引更多人報名參加唷！"
+                onChange={(e) => {
+                  settbThemeIntro(e.target.value)
+                }}
+                defaultValue={
+                  buttonDemo === true
+                    ? '綠島舊名火燒島，位於臺東市東方約33公里的海面上，面積16.2平方公里，由火山集塊岩所構成的島嶼，因長年受風化及海水侵蝕，形成曲折多變的海岸景觀。巍峨奇岩巨石、陡峭台地海岸、潔淨的白色沙灘、翠綠草原、獨特的海底溫泉、嶙峋珊瑚礁裙、綺麗海底世界、以及豐盛的植物等優渥的條件，使得綠島這個遺世獨立的小島，搖身一變成東部的海上樂園。'
+                    : ''
+                }
               />
               <Form.Control.Feedback type="invalid">
                 旅行揪團介紹為必填欄位
               </Form.Control.Feedback>
             </Form.Group>
-            <Button
+            {/* <Button
               className="add-travelbuddies-importfromi"
               onClick={() => setImportFromItinerary(true)}
             >
@@ -538,11 +580,29 @@ function AddTravelBuddiesForm() {
               onClick={() => setImportFromCollection(true)}
             >
               從我收藏的行程匯入
+            </Button> */}
+            <br />
+            <br />
+            <br />
+            <Button
+              id="insertTravelBuddies"
+              className="add-travelbuddies-cancel"
+              onClick={() => history.push('/travelbuddies')}
+            >
+              {' '}
+              取消
             </Button>
-            <br />
-            <br />
-            <br />
-            <Button className="add-travelbuddies-preview">預覽</Button>
+            <Button
+              id="insertTravelBuddies"
+              className="add-travelbuddies-confirm"
+              onClick={() => {
+                handlePicToDB()
+                history.push('/travelbuddies')
+              }}
+            >
+              {' '}
+              新增
+            </Button>
             <br />
             <Modal
               size="lg"

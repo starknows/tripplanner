@@ -2,6 +2,7 @@
   padding: 1px;
   height: 80px;
 }
+
 .Navbar-Logo {
   margin: 0px 200px 0px 60px;
 }
@@ -9,6 +10,8 @@
   margin: 0;
 }
 .Navbar-Title {
+  align-items: center;
+  justify-content: center;
   transition: 0.5s;
   margin: 0 100px 0 0;
 }
@@ -25,6 +28,8 @@
 .not-icon-mover{
   position: relative;
   top: 35px;
+  // align-items: center;
+  // justify-content: center;
 }
 .Navebar-figure {
   width: 45px;
@@ -65,6 +70,17 @@
 }
 figure{
   .header-img-br{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
     border-radius: 50%;
   }
 }
+
+//解決會員中心污染顏色
+.dropdown-item.active, .dropdown-item:active {
+  color:black;
+  // text-decoration: none;
+  background-color:transparent;
+}
+

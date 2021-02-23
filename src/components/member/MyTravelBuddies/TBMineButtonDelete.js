@@ -3,31 +3,35 @@ import { Button, Modal, Form } from 'react-bootstrap'
 
 function TBMineButtonDelete(props) {
   const [tbMineDelete, settbMineDelete] = useState(false)
-  console.log(props.tb_themeName_)
-  console.log(props.id)
-  // let id = prop.id
-  // async function tbDelete(id) {
-  //   // 要使用try-catch來作錯誤處理
-  //   try {
-  //     // 從伺服器得到資料
-  //     const response = await fetch('http://localhost:5000/' + id, {
-  //       method: 'delete',
-  //     })
+  // const [tbDelete, settbDelete] = useState([])
+  let tb_id = props.id
 
-  //     // ok只能判斷201-299狀態碼的情況
-  //     if (response.ok) {
-  //       // 剖析資料為JS的數值
-  //       const data = await response.json()
+  const [tbMine, settbMine] = useState([])
+  const [tbSelect, settbSelect] = useState([])
 
-  //       // 刷新一次資料列表
-  //       getMembers()
-  //     }
-  //   } catch (error) {
-  //     // 發生錯誤的處理情況
-  //     alert('無法得到伺服器資料，請稍後再重試')
-  //     console.log(error)
-  //   }
-  // }
+  async function tbDoDelete() {
+    // 要使用try-catch來作錯誤處理
+    try {
+      // 從伺服器得到資料
+      const response = await fetch(
+        `http://localhost:5000/travelbuddies/${tb_id}`,
+        {
+          method: 'delete',
+        }
+      )
+
+      // ok只能判斷201-299狀態碼的情況
+      if (response.ok) {
+        // 剖析資料為JS的數值
+        const data = await response.json()
+        props.gettbMine()
+      }
+    } catch (error) {
+      // 發生錯誤的處理情況
+      alert('無法得到伺服器資料，請稍後再重試-delete的問題')
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -42,8 +46,9 @@ function TBMineButtonDelete(props) {
         show={tbMineDelete}
         onHide={() => settbMineDelete(false)}
         aria-labelledby="tbMineDelete"
+        centered={true}
       >
-        <Form>
+        <div>
           <Modal.Header closeButton>
             <Modal.Title id="tbMineDelete" className="tbmine-delete-title">
               您確定要刪除<span>{' ' + props.tb_themeName_ + ' '}</span>
@@ -63,12 +68,16 @@ function TBMineButtonDelete(props) {
             <Button
               variant=""
               className="tbmine-button-delete-confirm"
-              // onClick={tbDelete}
+              onClick={() => {
+                tbDoDelete()
+                settbMineDelete(false)
+              }}
+              type="button"
             >
               確定
             </Button>
           </Modal.Footer>
-        </Form>
+        </div>
       </Modal>
     </>
   )

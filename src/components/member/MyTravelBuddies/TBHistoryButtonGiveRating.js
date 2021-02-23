@@ -1,46 +1,20 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
-import TBGiveStarRating from './TBGiveStarRating'
+import { useHistory } from 'react-router-dom'
 
-function TBHistoryButtonGiveRating() {
-  const [tbHistoryGiveRating, settbHistoryGiveRating] = useState(false)
+function TBHistoryButtonGiveRating(props) {
+  let history = useHistory()
+  let id = props.id
   return (
     <>
       <Button
         className="tbhistory-button-giverating"
-        onClick={() => settbHistoryGiveRating(true)}
+        onClick={() => {
+          history.push('/travelBuddies/starRating/' + id)
+        }}
       >
         評價團員
-      </Button>{' '}
-      <Modal
-        size="lg"
-        show={tbHistoryGiveRating}
-        onHide={() => settbHistoryGiveRating(false)}
-        aria-labelledby="tbHistoryGiveRating"
-      >
-        <Form>
-          <Modal.Header closeButton>
-            <Modal.Title
-              id="tbHistoryGiveRating"
-              className="tbhistory-giverating-title"
-            >
-              評價團員
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="d-flex">
-            <TBGiveStarRating />
-            <TBGiveStarRating />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="" className="tbhistory-button-giverating-cancel">
-              取消
-            </Button>
-            <Button variant="" className="tbhistory-button-giverating-confirm">
-              確定
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
+      </Button>
     </>
   )
 }

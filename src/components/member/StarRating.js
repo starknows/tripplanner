@@ -21,15 +21,15 @@ function StarRating({ stars = 5, filled }) {
     <>
       <div className="star-rating-wrapper">
         <p>評分</p>
-        <label>3.5</label>
+        <label>5</label>
         {[...Array(stars).keys()].map((i) => (
           <span
             key={i}
-            onMouseEnter={() => handleMouseEnter(i + 1)}
-            onMouseLeave={handleMouseLeave}
-            onClick={() => handleClick(i + 1)}
+            // onMouseEnter={() => handleMouseEnter(i + 1)}
+            // onMouseLeave={handleMouseLeave}
+            // onClick={() => handleClick(i + 1)}
           >
-            {dynamicValue >= i + 1 ? '★' : '☆'}
+            {dynamicValue >= i + 1 ? '★' : '★'}
           </span>
         ))}
       </div>
@@ -37,6 +37,3 @@ function StarRating({ stars = 5, filled }) {
   )
 }
 export default StarRating
-
-// 分數跟星星還沒連動
-// 小數點還要重寫邏輯判斷

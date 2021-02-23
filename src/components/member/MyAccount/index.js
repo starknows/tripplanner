@@ -13,7 +13,7 @@ function MyAccount() {
         <LineChart />
       </div>
       <div className="notice-style">
-        <h4 className="MyAccount-title">正在參加的揪團：</h4>
+        <h4 className="MyAccount-title">即將參加的揪團：</h4>
         <Ingroup />
       </div>
     </>
