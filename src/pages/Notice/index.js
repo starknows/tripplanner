@@ -4,34 +4,14 @@ import Pages from '../../components/main/Pages'
 import { Table } from 'react-bootstrap'
 import './notice.scss'
 
-// let cardData = require('../../components/Itinerary/testJsonData.json')
-// let handleTestData = cardData[2].data
-
-function Notice({
-  id = 1, //資料的id
-  time1 = -1, //第一個日期
-  time2 = -1, //第二個日期
-  price = -1, //價格
-}) {
+function Notice({ itemPerPage = 6 }) {
   const [metbJoined, setMetbJoined] = useState([])
-  let type = 'travelBuddies'
-  if (time1 === -1) {
-    type = 'travelBuddies'
-  } else if (time2 !== -1) {
-    type = 'travelBuddies'
-    // 改
-  } else if (price !== -1) {
-    type = 'travelBuddies'
-  }
-  // let detailUrl = `/${type}/view/${id}`
-  async function gettbJoined(props) {
+
+  async function gettbJoined() {
     try {
-      const response = await fetch(
-        `http://localhost:5000/travelBuddies/${id}`,
-        {
-          method: 'get',
-        }
-      )
+      const response = await fetch(`http://localhost:5000/travelBuddies`, {
+        method: 'get',
+      })
       if (response.ok) {
         const data = await response.json()
         setMetbJoined(data)
@@ -46,9 +26,22 @@ function Notice({
     gettbJoined()
   }, [])
 
-  let display = (
-    <>
-      {metbJoined.map((e, index) => (
+  //pages
+  let [showRange, setShowRange] = useState([0, itemPerPage])
+  let dataLength = metbJoined.length
+  let totalPage = Math.floor(dataLength / itemPerPage)
+  function changePage(orderPage) {
+    setShowRange([(orderPage - 1) * itemPerPage, orderPage * itemPerPage])
+    window.scrollTo(0, 0)
+  }
+
+  let display = <></>
+
+  display = metbJoined.map((e, index) => {
+    if (index < showRange[0] || index >= showRange[1]) {
+      return null
+    } else {
+      return (
         <tbody>
           <tr key={index}>
             <td>{e.id}</td>
@@ -68,9 +61,10 @@ function Notice({
             </td>
           </tr>
         </tbody>
-      ))}
-    </>
-  )
+      )
+    }
+  })
+
   return (
     <>
       <Table className="table table-striped">
@@ -83,7 +77,7 @@ function Notice({
             </tr>
           </thead>
           {display}
-          <Pages className="not-pages" />
+          <Pages pages={totalPage} changePage={changePage} />
         </div>
       </Table>
     </>

@@ -16,10 +16,13 @@ function Header({ auth, setAuth }) {
   const [memberData, setMemberData] = useState(
     JSON.parse(localStorage.getItem('userData'))
   )
+
+  //監聽登入狀態
   useEffect(() => {
     setMemberData(JSON.parse(localStorage.getItem('userData')))
     console.log('hhhhhuserData', memberData)
   }, [auth])
+
   useEffect(() => {
     // console.log(location)
     if (location.pathname === '/') {
@@ -28,6 +31,7 @@ function Header({ auth, setAuth }) {
       setHeaderStyle(1)
     }
   }, [location.pathname, auth])
+
   //有登入
   const login = (
     <>
@@ -46,6 +50,7 @@ function Header({ auth, setAuth }) {
       <NavDropdown
         title={
           <figure className="Navebar-figure">
+            {/* 登入大頭照 */}
             {memberData && (
               <img
                 className="header-img-br"
@@ -80,6 +85,7 @@ function Header({ auth, setAuth }) {
       </NavDropdown>
     </>
   )
+
   //登出狀態
   const loginout = (
     <>

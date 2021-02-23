@@ -11,7 +11,6 @@ function MeFavoritesstroke({
   time2 = -1, //第二個日期
   price = -1, //價格})
   itemPerPage = 9,
-  // map1 = '北部',
 }) {
   let type = 'travelBuddies'
   if (time1 === -1) {
@@ -25,7 +24,7 @@ function MeFavoritesstroke({
   let detailUrl = `/${type}/view/${id}`
   const [meitinerary, setMeitinerary] = useState([])
 
-  async function getProductCard(props) {
+  async function getProductCard() {
     try {
       const response = await fetch(`http://localhost:5000/itinerary`, {
         method: 'get',

@@ -3,26 +3,13 @@ import React, { useState, useEffect } from 'react'
 import { Form, Col, Button } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
 import './MemberEdit.scss'
-import { message } from 'antd'
 
 function MemberEdit({ member }) {
   let history = useHistory()
   let { id } = useParams()
-  const success = () => {
-    message.success({
-      content: '更新成功!',
-      className: 'custom-class',
-      style: {
-        marginTop: '20vh',
-      },
-    })
-  }
-  //const [members, setMembers] = useState('')
-  // const [memberData, setMemberData] = useState(
-  //   JSON.parse(localStorage.getItem('userData'))
-  // )
   console.log('ed member:', member)
-  //
+
+  //資料狀態
   const [member_name, setMember_name] = useState(member.member_name)
   const [email, setEmail] = useState(member.email)
   const [member_phone, setPhone] = useState(member.member_phone)
@@ -31,7 +18,7 @@ function MemberEdit({ member }) {
   const [member_id, setMember_id] = useState(member.member_id)
   const [member_aboutme, setMember_aboutme] = useState(member.member_aboutme)
 
-  // //更新
+  //更新
   async function updateMember(id) {
     const newMember = {
       id,
@@ -40,7 +27,6 @@ function MemberEdit({ member }) {
       member_phone,
       birthday,
       member_sex,
-      // member_photo_id,
       member_id,
       member_aboutme,
     }
@@ -67,29 +53,7 @@ function MemberEdit({ member }) {
       console.log(err)
     }
   }
-  // async function getMember(id) {
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/member/${id}`, {
-  //       mode: 'cors',
-  //       method: 'get',
-  //     })
-  //     if (response.ok) {
-  //       const data = await response.json()
-  //       // 設定到每個欄位
-  //       setEmail(member.email)
-  //       setMember_name(member.member_name)
-  //       setPhone(member.phone)
-  //       setBirthday(member.birthday)
-  //       setMember_sex(member.member_sex)
-  //       setMember_photo_id(member.setmember_photo_id)
-  //       setMember_id(member.member_id)
-  //       setMember_aboutme(member.member_aboutme)
-  //     }
-  //   } catch (err) {
-  //     alert('無法得到伺服器資料，請稍後再重試')
-  //     console.log(err)
-  //   }
-  // }
+  //member and id 監聽
   useEffect(() => {
     if (member === 1) {
       console.log('hi model沒有值', id)
@@ -103,7 +67,7 @@ function MemberEdit({ member }) {
 
   //元件狀態
   const [validated, setValidated] = useState(false)
-  //元件事件
+  //事件
   const handleSubmit = (event) => {
     const form = event.currentTarget
     if (form.checkValidity() === false) {
@@ -112,8 +76,6 @@ function MemberEdit({ member }) {
     }
     setValidated(true)
   }
-
-  //導入member[0]
 
   return (
     <>
@@ -155,24 +117,6 @@ function MemberEdit({ member }) {
             </Form.Control.Feedback>
           </Form.Group>
         </Form.Row>
-        {/* <Form.Row>
-            <Form.Group as={Col} md="12" controlId="validationCustom03">
-              <Form.Label>地區</Form.Label>
-              <span className="med-add-text-red">*</span>
-              <Form.Control
-                type="text"
-                placeholder="請輸入地區"
-                defaultValue={member[0].area}
-                required
-                onChange={(e) => {
-                  setArea(e.target.value)
-                }}
-              />
-              <Form.Control.Feedback type="invalid">
-                請輸入正確的地區
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Form.Row> */}
         {/* 電話 */}
         <Form.Row>
           <Form.Group as={Col} md="12" controlId="validationCustom04">
@@ -229,21 +173,6 @@ function MemberEdit({ member }) {
             </Form.Control>
           </Form.Group>
         </Form.Row>
-        {/* <Form.Row>
-          <Form.Group>
-            <div className="mb-3">
-              <Form.File id="formcheck-api-regular">
-                <Form.File.Label>更換大頭照</Form.File.Label>
-                <Form.File.Input
-                  type="file"
-                  onChange={(e) => {
-                    setMember_photo_id(e.target.files[0].name)
-                  }}
-                />
-              </Form.File>
-            </div>
-          </Form.Group>
-        </Form.Row> */}
         {/* 暱稱 */}
         <Form.Row>
           <Form.Group as={Col} md="12" controlId="validationCustom06">
@@ -285,7 +214,6 @@ function MemberEdit({ member }) {
           onClick={() => {
             updateMember(member.newsId)
             console.log('onclick ed', member.newsId)
-            success()
             setTimeout(() => {}, 3000)
           }}
         >

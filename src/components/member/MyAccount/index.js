@@ -1,4 +1,4 @@
-//我的帳戶
+//會員中心我的帳戶
 import React from 'react'
 
 import LineChart from '.././LineChart'
